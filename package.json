@@ -1,7 +1,24 @@
 {
-“name”: “SilverBot”,
-“version”: “1.0.0”,
-“description”: “Wavey, Baby.”,
-“main”: “bot.js”,
-“author”: “SilverShot”,
-“dependencies”: {}
+  "name": "silverbot",
+  "version": "1.0.0",
+  "description": "Wavy, Baby",
+  "main": "bot.js",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Silvershot335/SilverBot.git"
+  },
+  "author": "SilverShot",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Silvershot335/SilverBot/issues"
+  },
+  "homepage": "https://github.com/Silvershot335/SilverBot#readme",
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "nodemon": "^2.0.1",
+    "winston": "^3.2.1"
+  }
+}
