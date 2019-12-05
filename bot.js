@@ -58,7 +58,7 @@ SilverBot.on("message", (user, userID, channelID, message, event) => {
       message: "judy"
     });
     console.log(channelID);
-  }*/
+  } */
 });
 
 
