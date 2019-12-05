@@ -1,6 +1,8 @@
+
 const Discord = require("discord.io");
+const fs = require('fs');
 const SilverBot = new Discord.Client({
-  token: 'NjUyMTg1MzU1MjgxMjM1OTY4.Xel0wQ.ppK0BwhJCyHfNEXoPrigK3PmRp8',
+  token: fs.readFileSync('./token.txt', 'utf8'),
   autorun: true
 });
 
