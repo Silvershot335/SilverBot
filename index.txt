@@ -1,0 +1,7 @@
+{
+“name”: “SilverBot”,
+“version”: “1.0.0”,
+“description”: “Wavey, Baby.”,
+“main”: “bot.js”,
+“author”: “SilverShot”,
+“dependencies”: {}
