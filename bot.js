@@ -1,6 +1,6 @@
 const Discord = require("discord.io");
 const SilverBot = new Discord.Client({
-  token: 'NjUyMTg1MzU1MjgxMjM1OTY4.XellfA.5qmhYA2YQUzS7ZPsANGfTCQqefQ',
+  token: 'NjUyMTg1MzU1MjgxMjM1OTY4.Xel0wQ.ppK0BwhJCyHfNEXoPrigK3PmRp8',
   autorun: true
 });
 
@@ -42,11 +42,11 @@ SilverBot.on("message", (user, userID, channelID, message, event) => {
     });
     console.log(channelID);
   }
- /* if (message === "Who is Magdalena Bay?") {
+  if (message === "r/magdalenabay") {
     SilverBot.sendMessage({
       to: channelID,
       message:
-        "Magdalena Bay is a pop duo comprised of Mica Tenenbaum (songwriting and vocals) and Matthew Lewin (songwriting, vocals and production). The duo has been writing together since high school and started making pop as Magdalena Bay in 2016. Inspiration is drawn from retro pop songwriting and contemporary production-- the result has been a collection of upbeat and synth-driven singles."
+        "https://reddit.com/r/MagdalenaBay"
     });
     console.log(channelID);
   }
@@ -77,6 +77,12 @@ SilverBot.on("message", (user, userID, channelID, message, event) => { message =
       SilverBot.sendMessage({
           to: channelID,
           message: `We do not speak it's name.`
+      })
+  }
+  if (message.includes("progressive prog")) {
+      SilverBot.sendMessage({
+          to: channelID,
+          message: `https://www.reddit.com/r/ProgressiveProg//`
       })
   }
 });
