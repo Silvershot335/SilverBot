@@ -1,8 +1,9 @@
 const Discord = require("discord.io");
 const SilverBot = new Discord.Client({
-  token: "NjUyMTg1MzU1MjgxMjM1OTY4.XelLHw.r-poR31w7D1RiBaPKpPjzlCfDgE",
+  token: 'NjUyMTg1MzU1MjgxMjM1OTY4.XellfA.5qmhYA2YQUzS7ZPsANGfTCQqefQ',
   autorun: true
 });
+
 
 const winston = require("winston");
 
@@ -59,7 +60,7 @@ SilverBot.on("message", (user, userID, channelID, message, event) => {
 });
 
 
-SilverBot.on("message", (user, userID, channelID, message, event) => {
+SilverBot.on("message", (user, userID, channelID, message, event) => { message = message.toLowerCase() 
   if (message.includes("poecs") || message.includes("poe cheat sheet")) {
     SilverBot.sendMessage({
       to: channelID,
@@ -75,7 +76,7 @@ SilverBot.on("message", (user, userID, channelID, message, event) => {
   if (message.includes("vu")||(message.includes("Vu"))) {
       SilverBot.sendMessage({
           to: channelID,
-          message: `Please refrain from bringing him up. Thank you.`
+          message: `We do not speak it's name.`
       })
   }
 });
