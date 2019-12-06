@@ -2,9 +2,11 @@
   "name": "silverbot",
   "version": "1.0.0",
   "description": "Wavy, Baby",
-  "main": "bot.js",
+  "main": "lib/bot.js",
   "scripts": {
-    "start": "nodemon ."
+    "start": "concurrently \"npm:run-node\" \"npm:compile-watch\"",
+    "run-node": "nodemon .",
+    "compile-watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -20,5 +22,10 @@
     "discord.io": "^2.5.3",
     "nodemon": "^2.0.1",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.14",
+    "concurrently": "^5.0.0",
+    "typescript": "^3.7.3"
   }
 }
