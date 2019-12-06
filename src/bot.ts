@@ -1,12 +1,23 @@
 import Discord from 'discord.io';
 import fs from 'fs';
+import winston from 'winston';
 
 const SilverBot = new Discord.Client({
   token: fs.readFileSync('./token.txt', 'utf8'),
   autorun: true
 });
 
-import winston from 'winston';
+let map: Map<string, string>;
+
+function saveCustomCommandsToFile(command: string, value: string) {
+  map.set(command, value);
+  const commands: {key: string, value: string}[] = [];
+  map.forEach((value, key) => {
+    commands.push({key, value});
+  });
+  fs.writeFileSync('./config/commands.json', JSON.stringify(commands));
+}
+
 
 const logger = winston.createLogger({
   level: 'debug',
@@ -20,6 +31,17 @@ SilverBot.on('ready', () => {
   logger.info('Connected');
   logger.info('Logged in as: ');
   logger.info(`${SilverBot.username} ~~ (${SilverBot.id})`);
+  SilverBot.setPresence({
+    idle_since: "no",
+    game: {
+      name: 'Killshot',
+      type: 2
+    }
+  });
+  map = new Map<string, string>();
+  for (const command of JSON.parse(fs.readFileSync('./config/commands.json', 'utf8'))) {
+    map.set(command.key, command.value);
+  }
 });
 
 SilverBot.on('disconnect', (errMsg, code) => {
@@ -44,12 +66,13 @@ function getLinkFromMessage(message: string) {
   return null;
 }
 SilverBot.on('message', (user, userID, channelID, message, event) => {
+  const actualCase = message;
   message = message.toLowerCase();
   const link = getLinkFromMessage(message);
   if (link) {
     SilverBot.sendMessage({
       to: channelID,
-      message
+      message: link,
     });
   }
   if (message === 'fuck you') {
@@ -75,15 +98,45 @@ SilverBot.on('message', (user, userID, channelID, message, event) => {
     });
   }
   if (message.indexOf(`<@${SilverBot.id}>`) === 0) {
-    const command = message.substring(SilverBot.id.length + '<@> '.length);
-    if (command.includes('aesthetic')) {
-      const wordToPrint = command.substring('aethetic '.length);
+    const command = actualCase.substring(SilverBot.id.length + '<@> '.length);
+    const commandArray = command.split(' ').filter(item => item.trim() !== '');
+
+    if (commandArray[0] === 'aesthetic') {
       SilverBot.sendMessage({
         to: channelID,
-        message: wordToPrint
+        message: commandArray
+          .filter(i => i !== commandArray[0])
+          .join('')
           .split('')
           .map(item => item + ' ')
           .join('')
+      });
+    }
+
+    if (commandArray[0] === 'store') {
+      const value = commandArray.filter(item => item !== commandArray[0] && item !== commandArray[1]).join(' ');
+      saveCustomCommandsToFile(commandArray[1], value);
+      SilverBot.sendMessage({
+        to: channelID,
+        message: `Stored command ${commandArray[1]} -- value: ${value}`
+      });
+    }
+
+    if (commandArray[0] === 'commands') {
+      let commands = '';
+      map.forEach((value, key) => {
+        commands += `${key} -> ${value}\n`;
+      });
+      SilverBot.sendMessage({
+        to: channelID,
+        message: commands
+      })
+    }
+
+    if (map.has(commandArray[0])) {
+      SilverBot.sendMessage({
+        to: channelID,
+        message: `${map.get(commandArray[0])}`
       });
     }
   }
