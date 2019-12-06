@@ -6,7 +6,8 @@
   "scripts": {
     "start": "concurrently \"npm:run-node\" \"npm:compile-watch\"",
     "run-node": "nodemon .",
-    "compile-watch": "tsc --watch"
+    "compile-watch": "tsc --watch",
+    "start-batch": "node ."
   },
   "repository": {
     "type": "git",
