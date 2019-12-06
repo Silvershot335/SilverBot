@@ -73,4 +73,19 @@ SilverBot.on("message", (user, userID, channelID, message, event) => {
       message: "We do not speak it's name."
     });
   }
+  if (message.indexOf(`<@${SilverBot.id}>`) === 0) {
+    const command = message.substring(SilverBot.id.length + "<@> ".length);
+    if (command.includes("aesthetic")) {
+      const wordToPrint = command.substring("aethetic ".length);
+      SilverBot.sendMessage({
+        to: channelID,
+        message: wordToPrint
+          .split("")
+          .map(item => item + " ")
+          .join("")
+      });
+    }
+  }
 });
+
+
