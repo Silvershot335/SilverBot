@@ -1,170 +1,111 @@
-import Discord, { User, Member } from 'discord.io';
-import fs from 'fs';
-import winston, { silly } from 'winston';
-import { BADQUERY } from 'dns';
+import { Client, Message } from 'discord.js';
+import { readFileSync, writeFileSync } from 'fs';
+import { logger } from './logger';
 
-const SilverBot = new Discord.Client({
-  token: fs.readFileSync('./token.txt', 'utf8'),
-  autorun: true
-});
+const bot = new Client();
+const commands: Map<string, string> = new Map();
+const links: Map<string, string> = new Map();
 
-let map: Map<string, string>;
+function readCommands(map: Map<string, string>, filePath: string) {
+  for (const command of JSON.parse(readFileSync(filePath, 'utf8'))) {
+    map.set(command.key, command.value);
+  }
+}
 
-function saveCustomCommandsToFile(command: string, value: string) {
+function saveCustomCommandsToFile(
+  map: Map<string, string>,
+  command: string,
+  value: string,
+  filePath: string
+) {
   map.set(command, value);
   const commands: { key: string; value: string }[] = [];
   map.forEach((value, key) => {
     commands.push({ key, value });
   });
-  fs.writeFileSync('./config/commands.json', JSON.stringify(commands));
+  writeFileSync(filePath, JSON.stringify(commands));
 }
 
-const logger = winston.createLogger({
-  level: 'debug',
-  format: winston.format.colorize(),
-  transports: [
-    new winston.transports.Console({ format: winston.format.simple() })
-  ]
-});
+function handleBotPing(message: Message) {
+  const command = message.content.substring(bot.user.id.length + '<@> '.length);
+  const commandArray = command.split(' ').filter((item) => item.trim() !== '');
 
-SilverBot.on('ready', () => {
-  logger.info('Connected');
-  logger.info('Logged in as: ');
-  logger.info(`${SilverBot.username} ~~ (${SilverBot.id})`);
-  SilverBot.setPresence({
-    idle_since: 'no',
-    game: {
-      name: 'Killshot',
-      type: 2
-    }
-  });
-  SilverBot.getMembers
-  map = new Map<string, string>();
-  for (const command of JSON.parse(
-    fs.readFileSync('./config/commands.json', 'utf8')
-  )) {
-    map.set(command.key, command.value);
+  if (commandArray[0] === 'aesthetic') {
+    message.channel.send(
+      commandArray
+        .filter((i) => i !== commandArray[0])
+        .join('')
+        .split('')
+        .map((item) => item + ' ')
+        .join('')
+    );
   }
-  console.log (Member)
-});
 
-SilverBot.on('disconnect', (errMsg, code) => {
-  logger.error('Bot disconnected');
-  logger.error(`message: ${errMsg} - error code: ${code}`);
-  SilverBot.connect();
-});
+  if (commandArray[0] === 'store') {
+    const value = commandArray
+      .filter((item) => item !== commandArray[0] && item !== commandArray[1])
+      .join(' ');
+    saveCustomCommandsToFile(
+      commands,
+      commandArray[1],
+      value,
+      './config/commands.json'
+    );
+    message.reply(`Stored command ${commandArray[1]} value: ${value}`);
+  }
 
-function getLinkFromMessage(message: string) {
-  if (message === 'magcord') {
-    return 'https://discord.gg/TAsqJer';
+  if (commandArray[0] === 'link') {
+    saveCustomCommandsToFile(
+      links,
+      commandArray[0],
+      commandArray[1],
+      './config/links.json'
+    );
   }
-  if (message === 'r/magdalenabay') {
-    return 'https://reddit.com/r/MagdalenaBay';
+
+  if (commandArray[0] === 'commands') {
+    let reply = '';
+    commands.forEach((value, key) => {
+      reply += `${key} -> ${value}\n`;
+    });
+    message.channel.send(reply);
   }
-  if (message.includes('progressive prog')) {
-    return 'https://www.reddit.com/r/ProgressiveProg/';
+
+  if (commandArray[0] === 'links') {
+    let reply = '';
+    links.forEach((value, key) => {
+      reply += `${key} -> ${value}\n`;
+    });
+    message.channel.send(reply);
   }
-  if (message.includes('poecs') || message.includes('poe cheat sheet')) {
-    return 'https://silvershot335.github.io/PoECheatSheet/';
+
+  if (commands.has(commandArray[0])) {
+    message.channel.send(commands.get(commandArray[0]));
   }
-  return null;
 }
-SilverBot.on('message', (user, userID, channelID, message, event) => {
-  const actualCase = message;
-  message = message.toLowerCase();
-  const link = getLinkFromMessage(message);
-  if (link) {
-    SilverBot.sendMessage({
-      to: channelID,
-      message: link
-    });
-  }
-  if (message === 'fuck you') {
-    SilverBot.sendMessage({
-      to: channelID,
-      message: 'you dumb motherfucker'
-    });
-  }
-  if (
-    message.includes('who is magdalena bay') ||
-    message.includes('who is magbay')
-  ) {
-    SilverBot.sendMessage({
-      to: channelID,
-      message:
-        'Magdalena Bay is a pop duo comprised of Mica Tenenbaum (songwriting and vocals) and Matthew Lewin (songwriting, vocals and production). The duo has been writing together since high school and started making pop as Magdalena Bay in 2016. Inspiration is drawn from retro pop songwriting and contemporary production-- the result has been a collection of upbeat and synth-driven singles.'
-    });
-  }
-  if (message.includes('vu')) {
-    SilverBot.sendMessage({
-      to: channelID,
-      message: "We do not speak it's name."
-    });
-  }
-  if (message.indexOf(`<@${SilverBot.id}>`) === 0) {
-    const command = actualCase.substring(SilverBot.id.length + '<@> '.length);
-    const commandArray = command.split(' ').filter(item => item.trim() !== '');
 
-    if (commandArray[0] === 'aesthetic') {
-      SilverBot.sendMessage({
-        to: channelID,
-        message: commandArray
-          .filter(i => i !== commandArray[0])
-          .join('')
-          .split('')
-          .map(item => item + ' ')
-          .join('')
-      });
-    }
+bot.on('ready', () => {
+  logger.info('Connected!');
+  logger.info(`Logged in as ${bot.user.tag}!`);
 
-    if (commandArray[0] === 'store') {
-      const value = commandArray
-        .filter(item => item !== commandArray[0] && item !== commandArray[1])
-        .join(' ');
-      saveCustomCommandsToFile(commandArray[1], value);
-      SilverBot.sendMessage({
-        to: channelID,
-        message: `Stored command ${commandArray[1]} -- value: ${value}`
-      });
-    }
+  readCommands(commands, './config/commands.json');
+  readCommands(links, './config/links.json');
+  bot.user.setPresence({ game: { name: 'Killshot' } });
+});
 
-    if (commandArray[0] === 'commands') {
-      let commands = '';
-      map.forEach((value, key) => {
-        commands += `${key} -> ${value}\n`;
-      });
-      SilverBot.sendMessage({
-        to: channelID,
-        message: commands
-      });
-    }
-
-    if (map.has(commandArray[0])) {
-      SilverBot.sendMessage({
-        to: channelID,
-        message: `${map.get(commandArray[0])}`
-      });
-    }
+bot.on('message', (message) => {
+  if (message.content.toLowerCase().match('(?:^| )vu(?: |$)')) {
+    message.channel.send("We do not speak it's name.");
   }
-  let serverID = '648728910657486848';
-  let venice = '651264806082576395';
-  let judy = '167804931439329280';
-  let man = '177116185006047232';
-
-  if (message.includes(`, you just advanced to level 5!`)) {
-    const command = actualCase.substring(SilverBot.id.length + '<@> '.length);
-    const commandArray = command.split(' ').filter(item => item.trim() !== '');
-    SilverBot.sendMessage({
-      to: channelID,
-      message: 'Working'
-    });
+  if (message.content === 'ping') {
+    message.reply('Pong!');
   }
-
-  if (message.includes(`, you just advanced to level 5!`)) {
-    SilverBot.addToRole({
-      serverID: serverID,
-      role: venice,
-      userID: judy
-    });
+  if (message.isMemberMentioned(bot.user)) {
+    handleBotPing(message);
+  }
+  if (links.has(message.content.trim())) {
+    message.channel.send(links.get(message.content.trim()));
   }
 });
+
+bot.login(readFileSync('./token.txt', 'utf8'));

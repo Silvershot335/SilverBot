@@ -1,0 +1,50 @@
+const name = 'my name is judah';
+
+console.log(name);
+
+for (let i = 0; i < name.length; i++) {
+  console.log(name[i]);
+}
+
+let index = 0;
+
+while (index < name.length) {
+  console.log(name[index]);
+  index = index + 1;
+}
+---------------------------------------------------
+
+client.addToRole({
+	serverID: Snowflake,
+	roleID: Snowflake,
+	userID: Snowflake,
+});
+
+----------------------------------------------------
+<@${judy}>
+
+  const command = actualCase.substring(SilverBot.id.length + '<@> '.length);
+    const commandArray = command.split(' ').filter(item => item.trim() !== '');
+
+
+let serverID = '648728910657486848';
+  let venice = '651264806082576395';
+  let judy = '167804931439329280';
+  let man = '177116185006047232';
+
+  if (message.includes(`, you just advanced to level 5!`)) {
+    const command = actualCase.substring(SilverBot.id.length + '<@> '.length);
+    const commandArray = command.split(' ').filter(item => item.trim() !== '');
+    SilverBot.sendMessage({
+      to: channelID,
+      message: 'Working'
+    });
+  }
+
+  if (message.includes(`, you just advanced to level 5!`)) {
+    SilverBot.addToRole({
+      serverID: serverID,
+      role: venice,
+      userID: judy
+    });
+  }

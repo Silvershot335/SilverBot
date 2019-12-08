@@ -1,7 +1,4 @@
 token.txt
-<<<<<<< HEAD
-node_modules/
-=======
 # Logs
 logs
 *.log
@@ -106,4 +103,5 @@ dist
 
 # TernJS port file
 .tern-port
->>>>>>> 893cb80e765c248810324b3d580304ec9db0cd73
+
+lib/**
