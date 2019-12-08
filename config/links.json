@@ -1,0 +1,15 @@
+[
+  { "key": "magcord", "value": "https://discord.gg/TAsqJer" },
+  { "key": "r/magdalenabay", "value": "https://reddit.com/r/MagdalenaBay" },
+  { "key": "progressive prog", "value": "https://www.reddit.com/r/ProgressiveProg" },
+  { "key": "poecs", "value": "https://silvershot335.github.io/PoECheatSheet/" },
+  { "key": "askchris", "value": "l" },
+  { "key": "merlyn", "value": "VOODOO MAN" },
+  { "key": "jesuschrist", "value": "its jason bourne" }
+]
+
+//   if (message.includes('poecs') || message.includes('poe cheat sheet')) {
+//     return '';
+//   }
+//   return null;
+// }

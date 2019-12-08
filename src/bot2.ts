@@ -4,15 +4,12 @@ import { readFileSync, writeFileSync } from 'fs';
 import { logger } from './logger';
 
 const bot = new Client();
+const commands: Map<string, string> = new Map();
 
-function readCommands() {
-  const map = new Map<string, string>();
-  for (const command of JSON.parse(
-    readFileSync('./config/commands.json', 'utf8')
-  )) {
+function readCommands(map: Map<string, string>, filePath: string) {
+  for (const command of JSON.parse(readFileSync(filePath, 'utf8'))) {
     map.set(command.key, command.value);
   }
-  return map;
 }
 
 function getLinkFromMessage(message: string) {
@@ -34,7 +31,9 @@ function getLinkFromMessage(message: string) {
 bot.on('ready', () => {
   logger.info('Connected!');
   logger.info(`Logged in as ${bot.user.tag}!`);
-  readCommands();
+
+  readCommands(commands, './config/commands.json');
+  readCommands(commands, './config/links.json');
   bot.user.setPresence({ game: { name: 'Killshot' } });
 });
 

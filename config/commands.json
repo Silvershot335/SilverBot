@@ -1,1 +1,9 @@
-[{"key":"a","value":"d"},{"key":"b","value":"c"},{"key":"vu","value":"hoe"},{"key":"cause","value":"effect"},{"key":"askchris","value":"<@!177116185006047232>"},{"key":"merlyn","value":"VOODOO MAN"},{"key":"jesuschrist","value":"its jason bourne"}]
+[
+  { "key": "a", "value": "d" },
+  { "key": "b", "value": "c" },
+  { "key": "vu", "value": "hoe" },
+  { "key": "cause", "value": "effect" },
+  { "key": "askchris", "value": "<@!177116185006047232>" },
+  { "key": "merlyn", "value": "VOODOO MAN" },
+  { "key": "jesuschrist", "value": "its jason bourne" }
+]
