@@ -151,7 +151,9 @@ SilverBot.on('message', (user, userID, channelID, message, event) => {
   let judy = '167804931439329280';
   let man = '177116185006047232';
 
-  if (message.includes(`<@${judy}>, you just advanced to level 5!`)) {
+  if (message.includes(`, you just advanced to level 5!`)) {
+    const command = actualCase.substring(SilverBot.id.length + '<@> '.length);
+    const commandArray = command.split(' ').filter(item => item.trim() !== '');
     SilverBot.sendMessage({
       to: channelID,
       message: 'Working'

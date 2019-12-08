@@ -22,3 +22,6 @@ client.addToRole({
 
 ----------------------------------------------------
 <@${judy}>
+
+  const command = actualCase.substring(SilverBot.id.length + '<@> '.length);
+    const commandArray = command.split(' ').filter(item => item.trim() !== '');
