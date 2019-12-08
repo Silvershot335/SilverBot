@@ -1,6 +1,7 @@
-import Discord from 'discord.io';
+import Discord, { User, Member } from 'discord.io';
 import fs from 'fs';
-import winston from 'winston';
+import winston, { silly } from 'winston';
+import { BADQUERY } from 'dns';
 
 const SilverBot = new Discord.Client({
   token: fs.readFileSync('./token.txt', 'utf8'),
@@ -11,13 +12,12 @@ let map: Map<string, string>;
 
 function saveCustomCommandsToFile(command: string, value: string) {
   map.set(command, value);
-  const commands: {key: string, value: string}[] = [];
+  const commands: { key: string; value: string }[] = [];
   map.forEach((value, key) => {
-    commands.push({key, value});
+    commands.push({ key, value });
   });
   fs.writeFileSync('./config/commands.json', JSON.stringify(commands));
 }
-
 
 const logger = winston.createLogger({
   level: 'debug',
@@ -32,16 +32,20 @@ SilverBot.on('ready', () => {
   logger.info('Logged in as: ');
   logger.info(`${SilverBot.username} ~~ (${SilverBot.id})`);
   SilverBot.setPresence({
-    idle_since: "no",
+    idle_since: 'no',
     game: {
       name: 'Killshot',
       type: 2
     }
   });
+  SilverBot.getMembers
   map = new Map<string, string>();
-  for (const command of JSON.parse(fs.readFileSync('./config/commands.json', 'utf8'))) {
+  for (const command of JSON.parse(
+    fs.readFileSync('./config/commands.json', 'utf8')
+  )) {
     map.set(command.key, command.value);
   }
+  console.log (Member)
 });
 
 SilverBot.on('disconnect', (errMsg, code) => {
@@ -72,7 +76,7 @@ SilverBot.on('message', (user, userID, channelID, message, event) => {
   if (link) {
     SilverBot.sendMessage({
       to: channelID,
-      message: link,
+      message: link
     });
   }
   if (message === 'fuck you') {
@@ -114,7 +118,9 @@ SilverBot.on('message', (user, userID, channelID, message, event) => {
     }
 
     if (commandArray[0] === 'store') {
-      const value = commandArray.filter(item => item !== commandArray[0] && item !== commandArray[1]).join(' ');
+      const value = commandArray
+        .filter(item => item !== commandArray[0] && item !== commandArray[1])
+        .join(' ');
       saveCustomCommandsToFile(commandArray[1], value);
       SilverBot.sendMessage({
         to: channelID,
@@ -130,7 +136,7 @@ SilverBot.on('message', (user, userID, channelID, message, event) => {
       SilverBot.sendMessage({
         to: channelID,
         message: commands
-      })
+      });
     }
 
     if (map.has(commandArray[0])) {
@@ -139,5 +145,24 @@ SilverBot.on('message', (user, userID, channelID, message, event) => {
         message: `${map.get(commandArray[0])}`
       });
     }
+  }
+  let serverID = '648728910657486848';
+  let venice = '651264806082576395';
+  let judy = '167804931439329280';
+  let man = '177116185006047232';
+
+  if (message.includes(`<@${judy}>, you just advanced to level 5!`)) {
+    SilverBot.sendMessage({
+      to: channelID,
+      message: 'Working'
+    });
+  }
+
+  if (message.includes(`, you just advanced to level 5!`)) {
+    SilverBot.addToRole({
+      serverID: serverID,
+      role: venice,
+      userID: judy
+    });
   }
 });

@@ -12,3 +12,13 @@ while (index < name.length) {
   console.log(name[index]);
   index = index + 1;
 }
+---------------------------------------------------
+
+client.addToRole({
+	serverID: Snowflake,
+	roleID: Snowflake,
+	userID: Snowflake,
+});
+
+----------------------------------------------------
+<@${judy}>
