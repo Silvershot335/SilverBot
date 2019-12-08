@@ -2,14 +2,19 @@
   "name": "silverbot",
   "version": "1.0.0",
   "description": "Wavy, Baby",
-  "main": "lib/bot2.js",
+  "main": "lib/bot.js",
   "scripts": {
-    "start": "concurrently \"npm:run-node\" \"npm:compile-watch\"",
+    "start": "npm run compile && concurrently \"npm:run-node\" \"npm:compile-watch\"",
     "run-node": "nodemon .",
+    "compile": "tsc",
     "compile-watch": "tsc --watch",
     "start-batch": "node .",
-    "lint": "tslint src/bot2.ts`"
+    "lint": "tslint -p src"
   },
+  "pre-commit": [
+    "lint",
+    "compile"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Silvershot335/SilverBot.git"
@@ -28,6 +33,7 @@
   "devDependencies": {
     "@types/node": "^12.12.14",
     "concurrently": "^5.0.0",
+    "pre-commit": "^1.2.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3"
   }

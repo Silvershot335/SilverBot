@@ -1,15 +1,25 @@
 [
   { "key": "magcord", "value": "https://discord.gg/TAsqJer" },
   { "key": "r/magdalenabay", "value": "https://reddit.com/r/MagdalenaBay" },
-  { "key": "progressive prog", "value": "https://www.reddit.com/r/ProgressiveProg" },
+  {
+    "key": "progressive prog",
+    "value": "https://www.reddit.com/r/ProgressiveProg"
+  },
   { "key": "poecs", "value": "https://silvershot335.github.io/PoECheatSheet/" },
-  { "key": "askchris", "value": "l" },
-  { "key": "merlyn", "value": "VOODOO MAN" },
-  { "key": "jesuschrist", "value": "its jason bourne" }
+  {
+    "key": "poe cheat sheet",
+    "value": "https://silvershot335.github.io/PoECheatSheet/"
+  },
+  {
+    "key": "fuck you",
+    "value": "you dumb motherfucker"
+  },
+  {
+    "key": "who is magbay",
+    "value": "Magdalena Bay is a pop duo comprised of Mica Tenenbaum (songwriting and vocals) and Matthew Lewin (songwriting, vocals and production). The duo has been writing together since high school and started making pop as Magdalena Bay in 2016. Inspiration is drawn from retro pop songwriting and contemporary production-- the result has been a collection of upbeat and synth-driven singles."
+  },
+  {
+    "key": "who is magdalena bay",
+    "value": "Magdalena Bay is a pop duo comprised of Mica Tenenbaum (songwriting and vocals) and Matthew Lewin (songwriting, vocals and production). The duo has been writing together since high school and started making pop as Magdalena Bay in 2016. Inspiration is drawn from retro pop songwriting and contemporary production-- the result has been a collection of upbeat and synth-driven singles."
+  }
 ]
-
-//   if (message.includes('poecs') || message.includes('poe cheat sheet')) {
-//     return '';
-//   }
-//   return null;
-// }
