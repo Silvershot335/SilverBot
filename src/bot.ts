@@ -57,8 +57,8 @@ function handleBotPing(message: Message) {
   if (commandArray[0] === 'link') {
     saveCustomCommandsToFile(
       links,
-      commandArray[0],
       commandArray[1],
+      commandArray[2],
       './config/links.json'
     );
   }
@@ -103,6 +103,31 @@ bot.on('message', (message) => {
   if (message.isMemberMentioned(bot.user)) {
     handleBotPing(message);
   }
+  // && === AND
+  // || === OR
+  if (
+    message.content.match('GG <@[0-9]{18}> you just advanced to level 5!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find(
+      (role) => role.name === 'Venice'
+    );
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+  if (
+    message.content.match('GG <@[0-9]{18}> you just advanced to level 10!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find(
+      (role) => role.name === 'Neon'
+    );
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+
   if (links.has(message.content.trim())) {
     message.channel.send(links.get(message.content.trim()));
   }
