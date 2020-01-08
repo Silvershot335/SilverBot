@@ -40,7 +40,9 @@ function handleBotPing(message: Message) {
         .join('')
     );
   }
-
+  if (commandArray[0] === 'alt') {
+    message.delete();
+  }
   if (commandArray[0] === 'store') {
     const value = commandArray
       .filter((item) => item !== commandArray[0] && item !== commandArray[1])
@@ -90,16 +92,20 @@ bot.on('ready', () => {
 
   readCommands(commands, './config/commands.json');
   readCommands(links, './config/links.json');
-  bot.user.setPresence({ game: { name: 'Killshot' } });
+  bot.user.setPresence({ game: { name: 'Oh Hell' } });
 });
 
 bot.on('message', (message) => {
   if (message.content.toLowerCase().match('(?:^| )vu(?: |$)')) {
-    message.channel.send("We do not speak it's name.");
+    message.channel.send('We do not speak its name.');
   }
   if (message.content === 'ping') {
     message.reply('Pong!');
   }
+  if (message.content === 'ree') {
+    message.react('585982309451300864');
+  }
+
   if (message.isMemberMentioned(bot.user)) {
     handleBotPing(message);
   }
@@ -109,9 +115,7 @@ bot.on('message', (message) => {
     message.content.match('GG <@[0-9]{18}> you just advanced to level 5!') &&
     message.mentions.members.size === 1
   ) {
-    const role = message.guild.roles.find(
-      (role) => role.name === 'Venice'
-    );
+    const role = message.guild.roles.find((role) => role.name === 'Venice');
     const member = message.mentions.members.first();
 
     member.addRole(role).catch(logger.error);
@@ -120,9 +124,7 @@ bot.on('message', (message) => {
     message.content.match('GG <@[0-9]{18}> you just advanced to level 10!') &&
     message.mentions.members.size === 1
   ) {
-    const role = message.guild.roles.find(
-      (role) => role.name === 'Neon'
-    );
+    const role = message.guild.roles.find((role) => role.name === 'Neon');
     const member = message.mentions.members.first();
 
     member.addRole(role).catch(logger.error);
