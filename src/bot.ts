@@ -5,6 +5,7 @@ import { logger } from './logger';
 const bot = new Client();
 const commands: Map<string, string> = new Map();
 const links: Map<string, string> = new Map();
+const functions = ['aesthetic', 'alt', 'store', 'link', 'links', 'commands'];
 
 function readCommands(map: Map<string, string>, filePath: string) {
   for (const command of JSON.parse(readFileSync(filePath, 'utf8'))) {
@@ -26,46 +27,79 @@ function saveCustomCommandsToFile(
   writeFileSync(filePath, JSON.stringify(commands));
 }
 
-function handleBotPing(message: Message) {
-  const command = message.content.substring(bot.user.id.length + '<@> '.length);
-  const commandArray = command.split(' ').filter((item) => item.trim() !== '');
+function parseInput(message: string, bot: Client) {
+  const removeBotPing = message.substring(bot.user.id.length + '<@> '.length);
+  const quoteCount = (removeBotPing.match(/"/g) || []).length;
 
-  if (commandArray[0] === 'aesthetic') {
+  // if the message does not contain one of the functions we have created
+  // i.e. aesthetic, store, link, etc.
+  if (!functions.some((element) => message.includes(element))) {
+    return {
+      command: '',
+      key: removeBotPing.trim(),
+      value: '',
+      all: ''
+    };
+  }
+
+  const commands =
+    quoteCount === 2
+      ? removeBotPing
+          .split('"')
+          .map((item) => item.trim())
+          .filter((item) => item)
+      : removeBotPing.split(' ').filter((item) => item.trim());
+
+  const [command, key] = [commands[0], commands[1]];
+  const all = commands
+    .filter((item) => item !== command)
+    .map((item) => item.trim())
+    .join(' ');
+
+  const value = all.replace(key, '');
+
+  return {
+    command,
+    key,
+    value,
+    all
+  };
+}
+
+function handleBotPing(message: Message) {
+  const input = parseInput(message.content, bot);
+
+  if (input.command === 'aesthetic') {
     message.channel.send(
-      commandArray
-        .filter((i) => i !== commandArray[0])
-        .join('')
+      input.all
         .split('')
         .map((item) => item + ' ')
         .join('')
     );
   }
-  if (commandArray[0] === 'alt') {
+  if (input.command === 'alt') {
     message.delete();
   }
-  if (commandArray[0] === 'store') {
-    const value = commandArray
-      .filter((item) => item !== commandArray[0] && item !== commandArray[1])
-      .join(' ');
+  if (input.command === 'store') {
     saveCustomCommandsToFile(
       commands,
-      commandArray[1],
-      value,
+      input.key,
+      input.value,
       './config/commands.json'
     );
-    message.reply(`Stored command ${commandArray[1]} value: ${value}`);
+    message.reply(`Stored command ${input.key} value: ${input.value}`);
   }
 
-  if (commandArray[0] === 'link') {
+  if (input.command === 'link') {
     saveCustomCommandsToFile(
       links,
-      commandArray[1],
-      commandArray[2],
+      input.key,
+      input.value,
       './config/links.json'
     );
   }
 
-  if (commandArray[0] === 'commands') {
+  if (input.command === 'commands') {
     let reply = '';
     commands.forEach((value, key) => {
       reply += `${key} -> ${value}\n`;
@@ -73,7 +107,7 @@ function handleBotPing(message: Message) {
     message.channel.send(reply);
   }
 
-  if (commandArray[0] === 'links') {
+  if (input.command === 'links') {
     let reply = '';
     links.forEach((value, key) => {
       reply += `${key} -> ${value}\n`;
@@ -81,8 +115,8 @@ function handleBotPing(message: Message) {
     message.channel.send(reply);
   }
 
-  if (commands.has(commandArray[0])) {
-    message.channel.send(commands.get(commandArray[0]));
+  if (commands.has(input.key)) {
+    message.channel.send(commands.get(input.key));
   }
 }
 
