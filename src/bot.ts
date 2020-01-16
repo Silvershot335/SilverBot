@@ -27,6 +27,8 @@ function saveCustomCommandsToFile(
   writeFileSync(filePath, JSON.stringify(commands));
 }
 
+// who the fuck knows
+
 function parseInput(message: string, bot: Client) {
   const removeBotPing = message.substring(bot.user.id.length + '<@> '.length);
   const quoteCount = (removeBotPing.match(/"/g) || []).length;
@@ -66,6 +68,8 @@ function parseInput(message: string, bot: Client) {
   };
 }
 
+// These commands function when the bot is @pinged first.
+
 function handleBotPing(message: Message) {
   const input = parseInput(message.content, bot);
 
@@ -79,6 +83,7 @@ function handleBotPing(message: Message) {
   }
   if (input.command === 'alt') {
     message.delete();
+    message.channel.send('hello');
   }
   if (input.command === 'store') {
     saveCustomCommandsToFile(
@@ -87,6 +92,7 @@ function handleBotPing(message: Message) {
       input.value,
       './config/commands.json'
     );
+    message.delete();
     message.reply(`Stored command ${input.key} value: ${input.value}`);
   }
 
@@ -112,6 +118,7 @@ function handleBotPing(message: Message) {
     links.forEach((value, key) => {
       reply += `${key} -> ${value}\n`;
     });
+    message.delete();
     message.channel.send(reply);
   }
 
@@ -126,8 +133,21 @@ bot.on('ready', () => {
 
   readCommands(commands, './config/commands.json');
   readCommands(links, './config/links.json');
-  bot.user.setPresence({ game: { name: 'Oh Hell' } });
+  bot.user.setPresence({ game: { name: 'How to Get Physical' } });
 });
+
+// The following set of commands will not run if a bot triggers them.
+
+bot.on('message', (message) => {
+  if (message.author.bot) {
+    return;
+  }
+  if (message.content === 'I like it.') {
+    message.channel.send('F');
+  }
+});
+
+// These commands will run based on any message containing the included message (or *only* being the message).
 
 bot.on('message', (message) => {
   if (message.content.toLowerCase().match('(?:^| )vu(?: |$)')) {
@@ -139,7 +159,6 @@ bot.on('message', (message) => {
   if (message.content === 'ree') {
     message.react('585982309451300864');
   }
-
   if (message.isMemberMentioned(bot.user)) {
     handleBotPing(message);
   }
@@ -166,7 +185,30 @@ bot.on('message', (message) => {
 
   if (links.has(message.content.trim())) {
     message.channel.send(links.get(message.content.trim()));
+    message.delete();
+  }
+  if (
+    message.content.includes('addrole') &&
+    message.member.roles.some((r) =>
+      ['Admin', 'Judah', 'Fascist Overlord', 'unaligned'].includes(r.name)
+    )
+  ) {
+    const man = message.mentions.members.first();
+    const roll = message.mentions.roles.first();
+    message.channel.send('Added Mentioned Role to Mentioned User');
+    man.addRole(roll);
+    man.removeRole('665020851791462403');
+  }
+  if (
+    message.content.includes('removerole') &&
+    message.member.roles.some((r) =>
+      ['Carter', 'Judah', 'Fascist Overlord', 'Unaligned'].includes(r.name)
+    )
+  ) {
+    const man2 = message.mentions.members.first();
+    const roll2 = message.mentions.roles.first();
+    message.channel.send('Removed Mentioned Role from Mentioned User');
+    man2.removeRole(roll2);
   }
 });
-
 bot.login(readFileSync('./token.txt', 'utf8'));
