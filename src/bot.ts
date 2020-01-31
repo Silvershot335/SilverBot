@@ -136,17 +136,6 @@ bot.on('ready', () => {
   bot.user.setPresence({ game: { name: 'How to Get Physical' } });
 });
 
-// The following set of commands will not run if a bot triggers them.
-
-bot.on('message', (message) => {
-  if (message.author.bot) {
-    return;
-  }
-  if (message.content === 'I like it.') {
-    message.channel.send('F');
-  }
-});
-
 // These commands will run based on any message containing the included message (or *only* being the message).
 
 bot.on('message', (message) => {
@@ -156,7 +145,7 @@ bot.on('message', (message) => {
   if (message.content === 'ping') {
     message.reply('Pong!');
   }
-  if (message.content === 'ree') {
+  if (message.content === 'ree') {``
     message.react('585982309451300864');
   }
   if (message.isMemberMentioned(bot.user)) {
@@ -165,16 +154,18 @@ bot.on('message', (message) => {
   // && === AND
   // || === OR
   if (
-    message.content.match('GG <@[0-9]{18}> you just advanced to level 5!') &&
+    message.content.match('you just advanced to level 5!') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Venice');
     const member = message.mentions.members.first();
 
+    message.channel.send('test');
     member.addRole(role).catch(logger.error);
+    console.log(member);
   }
   if (
-    message.content.match('GG <@[0-9]{18}> you just advanced to level 10!') &&
+    message.content.match('you just advanced to level 10!') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Neon');
@@ -211,4 +202,14 @@ bot.on('message', (message) => {
     man2.removeRole(roll2);
   }
 });
+// The following set of commands will not run if a bot triggers them.
+
+/*bot.on('message', (message) => {
+  if (message.author.bot) {
+    return;
+  }
+  if (message.content === 'F') {
+    message.channel.send('F');
+  }
+});*/
 bot.login(readFileSync('./token.txt', 'utf8'));
