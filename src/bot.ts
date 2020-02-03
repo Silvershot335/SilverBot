@@ -154,15 +154,15 @@ bot.on('message', (message) => {
   // && === AND
   // || === OR
   if (
-    message.content.match('you just advanced to level 5!') &&
+    message.content.match('GG <@![0-9]{18}>, you just advanced to level 5!') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Venice');
     const member = message.mentions.members.first();
 
-    message.channel.send('test');
     member.addRole(role).catch(logger.error);
-    console.log(member);
+    message.channel.send('Role Added: Venice')
+    logger.info(message.content);
   }
   if (
     message.content.match('you just advanced to level 10!') &&
@@ -172,6 +172,7 @@ bot.on('message', (message) => {
     const member = message.mentions.members.first();
 
     member.addRole(role).catch(logger.error);
+    message.channel.send('Role Added: Neon');
   }
 
   if (links.has(message.content.trim())) {
@@ -204,12 +205,12 @@ bot.on('message', (message) => {
 });
 // The following set of commands will not run if a bot triggers them.
 
-/*bot.on('message', (message) => {
+bot.on('message', (message) => {
   if (message.author.bot) {
     return;
   }
   if (message.content === 'F') {
     message.channel.send('F');
   }
-});*/
+});
 bot.login(readFileSync('./token.txt', 'utf8'));
