@@ -7,7 +7,8 @@
     "object-literal-sort-keys": false,
     "trailing-comma": false,
     "no-shadowed-variable": false,
-    "array-type": [true, "array"]
+    "array-type": [true, "array"],
+    "no-string-literal":false
   },
   "rulesDirectory": []
 }

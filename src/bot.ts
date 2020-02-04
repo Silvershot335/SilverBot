@@ -1,11 +1,22 @@
 import { Client, Message } from 'discord.js';
 import { readFileSync, writeFileSync } from 'fs';
+import fetch from 'node-fetch';
 import { logger } from './logger';
 
 const bot = new Client();
 const commands: Map<string, string> = new Map();
 const links: Map<string, string> = new Map();
-const functions = ['aesthetic', 'alt', 'store', 'link', 'links', 'commands'];
+const [username, password] = readFileSync('./api.txt', 'utf-8').split(':');
+let memes: { id: string; name: string; url: string }[] = [];
+const functions = [
+  'aesthetic',
+  'alt',
+  'store',
+  'link',
+  'links',
+  'commands',
+  'meme'
+];
 
 function readCommands(map: Map<string, string>, filePath: string) {
   for (const command of JSON.parse(readFileSync(filePath, 'utf8'))) {
@@ -40,7 +51,8 @@ function parseInput(message: string, bot: Client) {
       command: '',
       key: removeBotPing.trim(),
       value: '',
-      all: ''
+      all: '',
+      memeData: []
     };
   }
 
@@ -53,6 +65,13 @@ function parseInput(message: string, bot: Client) {
       : removeBotPing.split(' ').filter((item) => item.trim());
 
   const [command, key] = [commands[0], commands[1]];
+  const memeData = commands
+    .map((item) => item.trim())
+    .join(' ')
+    .split('"')
+    .map((item) => item.trim())
+    .filter((item) => item);
+  memeData[0] = memeData[0].substring(command.length).trim();
   const all = commands
     .filter((item) => item !== command)
     .map((item) => item.trim())
@@ -64,8 +83,63 @@ function parseInput(message: string, bot: Client) {
     command,
     key,
     value,
-    all
+    all,
+    memeData
   };
+}
+
+function getId(firstInput: string) {
+  if (!Number.isNaN(Number(firstInput))) {
+    return Number(firstInput);
+  } else {
+    for (const meme of memes) {
+      if (meme.name.toLowerCase().includes(firstInput.toLowerCase())) {
+        return Number(meme.id);
+      }
+    }
+  }
+  return -1;
+}
+
+async function makeMeme(input: string[]) {
+  if (input.length < 3) {
+    return Promise.resolve('Not enough meme content!');
+  }
+
+  const startingURL = 'https://api.imgflip.com/caption_image';
+  const templateId = getId(input[0]);
+  if (templateId === -1) {
+    return Promise.resolve('Meme not found!');
+  }
+
+  const payload: any = {
+    template_id: templateId,
+    username,
+    password
+  };
+  for (let i = 1; i < input.length; ++i) {
+    payload[`boxes[${i}][text]`] = input[i];
+  }
+
+  let url = `${startingURL}?`;
+  for (const item in payload) {
+    if (item) {
+      url += `${item}=${payload[item]}&`;
+    }
+  }
+  url = url.substring(0, url.length - 1);
+
+  return await fetch(url, {
+    method: 'POST'
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data['data']) {
+        return data['data']['url'] as string;
+      } else {
+        return 'Meme not found!';
+      }
+    });
 }
 
 // These commands function when the bot is @pinged first.
@@ -73,6 +147,9 @@ function parseInput(message: string, bot: Client) {
 function handleBotPing(message: Message) {
   const input = parseInput(message.content, bot);
 
+  if (input.command === 'meme') {
+    makeMeme(input.memeData).then((meme) => message.channel.send(meme));
+  }
   if (input.command === 'aesthetic') {
     message.channel.send(
       input.all
@@ -133,6 +210,19 @@ bot.on('ready', () => {
 
   readCommands(commands, './config/commands.json');
   readCommands(links, './config/links.json');
+
+  // memes = JSON.parse(readFileSync('./config/memes.json', 'utf8'));
+  if (!memes) {
+    fetch('https://api.imgflip.com/get_memes')
+      .then((res) => res.json())
+      .then((json) => {
+        if (json && json['data']) {
+          memes = json['data']['memes'];
+          writeFileSync('./config/memes.json', JSON.stringify(memes));
+        }
+      });
+  }
+
   bot.user.setPresence({ game: { name: 'How to Get Physical' } });
 });
 
@@ -145,7 +235,7 @@ bot.on('message', (message) => {
   if (message.content === 'ping') {
     message.reply('Pong!');
   }
-  if (message.content === 'ree') {``
+  if (message.content === 'ree') {
     message.react('585982309451300864');
   }
   if (message.isMemberMentioned(bot.user)) {
@@ -161,7 +251,7 @@ bot.on('message', (message) => {
     const member = message.mentions.members.first();
 
     member.addRole(role).catch(logger.error);
-    message.channel.send('Role Added: Venice')
+    message.channel.send('Role Added: Venice');
     logger.info(message.content);
   }
   if (
@@ -181,8 +271,6 @@ bot.on('message', (message) => {
   }
   if (
     message.content.includes('addrole') &&
-    message.mentions.members.size === 1 &&
-    message.mentions.roles.size === 1 &&
     message.member.roles.some((r) =>
       ['Admin', 'Judah', 'Fascist Overlord', 'unaligned'].includes(r.name)
     )
@@ -195,8 +283,6 @@ bot.on('message', (message) => {
   }
   if (
     message.content.includes('removerole') &&
-    message.mentions.members.size === 1 &&
-    message.mentions.roles.size === 1 &&
     message.member.roles.some((r) =>
       ['Carter', 'Judah', 'Fascist Overlord', 'Unaligned'].includes(r.name)
     )
