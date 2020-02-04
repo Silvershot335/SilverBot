@@ -181,6 +181,8 @@ bot.on('message', (message) => {
   }
   if (
     message.content.includes('addrole') &&
+    message.mentions.members.size === 1 &&
+    message.mentions.roles.size === 1 &&
     message.member.roles.some((r) =>
       ['Admin', 'Judah', 'Fascist Overlord', 'unaligned'].includes(r.name)
     )
@@ -193,6 +195,8 @@ bot.on('message', (message) => {
   }
   if (
     message.content.includes('removerole') &&
+    message.mentions.members.size === 1 &&
+    message.mentions.roles.size === 1 &&
     message.member.roles.some((r) =>
       ['Carter', 'Judah', 'Fascist Overlord', 'Unaligned'].includes(r.name)
     )
