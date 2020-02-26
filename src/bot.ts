@@ -15,7 +15,9 @@ const functions = [
   'link',
   'links',
   'commands',
-  'meme'
+  'meme',
+  'help',
+  'mchelp'
 ];
 
 function readCommands(map: Map<string, string>, filePath: string) {
@@ -103,7 +105,9 @@ function getId(firstInput: string) {
 
 async function makeMeme(input: string[]) {
   if (input.length < 3) {
-    return Promise.resolve('Not enough meme content!');
+    return Promise.resolve(
+      '@SilverBot meme *meme name / id* "meme" "text" "per" "textbox"'
+    );
   }
 
   const startingURL = 'https://api.imgflip.com/caption_image';
@@ -159,9 +163,20 @@ function handleBotPing(message: Message) {
     );
   }
   if (input.command === 'alt') {
-    message.delete();
+    message.delete(1);
     message.channel.send('hello');
   }
+
+  if (input.command === 'help') {
+    message.delete(1);
+    message.author.send('```Welcome to SilverBot\n\nCommands:\n@SilverBot meme **meme ID** "top text" "bottom text"\n@SilverBot store **input** *output*\n@SilverBot magcord, progressiveprog, poecs``` ');
+  }
+
+  if (input.command === 'mchelp') {
+    message.delete(1);
+    message.author.send('**APOL MC Help**\nIn-Game Commands:\n/sethome\n/home\n/tpa <username>\n\nUseful links:\nhttps://tekxit.fandom.com/wiki/Tekxit_Wiki');
+  }
+
   if (input.command === 'store') {
     saveCustomCommandsToFile(
       commands,
@@ -211,7 +226,7 @@ bot.on('ready', () => {
   readCommands(commands, './config/commands.json');
   readCommands(links, './config/links.json');
 
-  // memes = JSON.parse(readFileSync('./config/memes.json', 'utf8'));
+  memes = JSON.parse(readFileSync('./config/memes.json', 'utf8'));
   if (!memes) {
     fetch('https://api.imgflip.com/get_memes')
       .then((res) => res.json())
@@ -223,10 +238,12 @@ bot.on('ready', () => {
       });
   }
 
-  bot.user.setPresence({ game: { name: 'How to Get Physical' } });
+  bot.user.setPresence({ game: { name: 'Airplane' } });
 });
 
 // These commands will run based on any message containing the included message (or *only* being the message).
+// && === AND
+// || === OR
 
 bot.on('message', (message) => {
   if (message.content.toLowerCase().match('(?:^| )vu(?: |$)')) {
@@ -241,8 +258,6 @@ bot.on('message', (message) => {
   if (message.isMemberMentioned(bot.user)) {
     handleBotPing(message);
   }
-  // && === AND
-  // || === OR
   if (
     message.content.match('GG <@![0-9]{18}>, you just advanced to level 5!') &&
     message.mentions.members.size === 1
@@ -278,8 +293,8 @@ bot.on('message', (message) => {
     const man = message.mentions.members.first();
     const roll = message.mentions.roles.first();
     message.channel.send('Added Mentioned Role to Mentioned User');
-    man.addRole(roll);
-    man.removeRole('665020851791462403');
+    man.addRole(roll).catch(logger.error);
+    man.removeRole('665020851791462403').catch(logger.error);
   }
   if (
     message.content.includes('removerole') &&
@@ -290,7 +305,7 @@ bot.on('message', (message) => {
     const man2 = message.mentions.members.first();
     const roll2 = message.mentions.roles.first();
     message.channel.send('Removed Mentioned Role from Mentioned User');
-    man2.removeRole(roll2);
+    man2.removeRole(roll2).catch(logger.error);
   }
 });
 // The following set of commands will not run if a bot triggers them.
@@ -302,5 +317,13 @@ bot.on('message', (message) => {
   if (message.content === 'F') {
     message.channel.send('F');
   }
+  if (
+    message.content.includes('subjective') ||
+    message.content.includes('objective')
+  ) {
+    message.react('👎');
+    message.channel.send('Stop Saying That.');
+  }
 });
+
 bot.login(readFileSync('./token.txt', 'utf8'));
