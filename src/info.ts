@@ -58,7 +58,7 @@ export function generateInfoMessage(message: Message) {
       ordinals[(modded - 20) % 10] || ordinals[modded] || ordinals[0];
 
     // Add our number + the suffix
-    const resultAsString = order + suffix;
+    const resultAsString = order + suffix + ' oldest member on the server';
 
     // If we found what rank the member who sent the message is
     if (order !== -1) {
