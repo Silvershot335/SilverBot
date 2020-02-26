@@ -155,4 +155,4 @@ bot.on('message', (message) => {
     message.channel.send('Stop Saying That.');
   }
 });
-bot.login(readFileSync('./dad-bot-token.txt', 'utf8'));
+bot.login(readFileSync('./token.txt', 'utf8'));
