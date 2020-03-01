@@ -16,9 +16,9 @@ const links: Map<string, string> = new Map();
 function handleBotPing(message: Message) {
   const input = parseInput(message.content, bot);
   let reply = '';
-
+  console.log(input)
   // base the logic from the input
-  switch (input.command) {
+  switch (input.command.trim()) {
     case 'skip':
       skipSong(bot);
       break;

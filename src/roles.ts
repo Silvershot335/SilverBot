@@ -48,4 +48,78 @@ export function handleRoleCommands(message: Message) {
     message.channel.send('Removed Mentioned Role from Mentioned User');
     man2.removeRole(roll2).catch(logger.error);
   }
+  if (
+    message.content.match('Achtung <@![0-9]{18}>, you just hit level 1!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find((role) => role.name === 'Popmart Shoppers');
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+  if (
+    message.content.match('Achtung <@![0-9]{18}>, you just hit level 5!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find((role) => role.name === 'ZooBabies');
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+  if (
+    message.content.match('Achtung <@![0-9]{18}>, you just hit level 10!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find((role) => role.name === 'Boys');
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+  if (
+    message.content.match('Achtung <@![0-9]{18}>, you just hit level 15!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find((role) => role.name === 'Wanderers');
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+  if (
+    message.content.match('Achtung <@![0-9]{18}>, you just hit level 20!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find((role) => role.name === 'Refugees');
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+  if (
+    message.content.match('Achtung <@![0-9]{18}>, you just hit level 25!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find((role) => role.name === 'Passengers');
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+  if (
+    message.content.match('Achtung <@![0-9]{18}>, you just hit level 30!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find((role) => role.name === 'Landladies');
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+  if (
+    message.content.match('Achtung <@![0-9]{18}>, you just hit level 35!') &&
+    message.mentions.members.size === 1
+  ) {
+    const role = message.guild.roles.find((role) => role.name === 'Cockatoos');
+    const member = message.mentions.members.first();
+
+    member.addRole(role).catch(logger.error);
+  }
+
+
 }

@@ -1,4 +1,5 @@
 import { GuildMember, Message, TextChannel } from 'discord.js';
+import { RichEmbed } from 'discord.js';
 import { infoMessageEmbed } from './utils';
 
 interface IMemberJoinedAt {
@@ -8,7 +9,8 @@ interface IMemberJoinedAt {
 
 export function generateInfoMessage(message: Message) {
   // set Username and Avatar at top
-  const messageEmbed = infoMessageEmbed.setAuthor(
+  const messageEmbed = new RichEmbed().setColor('#0099ff');
+  messageEmbed.setAuthor(
     message.author.username,
     message.author.avatarURL,
     message.author.displayAvatarURL

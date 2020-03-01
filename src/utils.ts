@@ -43,7 +43,11 @@ export const songs: { title: string; duration: number }[] = [
   { title: 'Waking Up', duration: 217 },
   { title: 'Set Me Off', duration: 206 },
   { title: 'Head Over Heels', duration: 213 },
-  { title: '#wastehistime', duration: 216 }
+  { title: '#wastehistime', duration: 216 },
+  // Extra
+  { title: 'VOCPOP', duration: 185 },
+  { title: 'Crimson', duration: 200 }
+  
 ];
 
 export const infoMessageEmbed = new RichEmbed().setColor('#0099ff');
