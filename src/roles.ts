@@ -120,6 +120,4 @@ export function handleRoleCommands(message: Message) {
 
     member.addRole(role).catch(logger.error);
   }
-
-
 }

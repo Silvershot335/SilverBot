@@ -47,7 +47,6 @@ export const songs: { title: string; duration: number }[] = [
   // Extra
   { title: 'VOCPOP', duration: 185 },
   { title: 'Crimson', duration: 200 }
-  
 ];
 
 export const infoMessageEmbed = new RichEmbed().setColor('#0099ff');
