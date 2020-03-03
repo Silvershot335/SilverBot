@@ -1,21 +1,15 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { Command } from './database/command.entity';
 
-export function readCommands(map: Map<string, string>, filePath: string) {
-  for (const command of JSON.parse(readFileSync(filePath, 'utf8'))) {
-    map.set(command.key, command.value);
-  }
+export function getCommands() {
+  return Command.find({
+    select: ['key', 'value', 'type'],
+    where: { type: 'command' }
+  });
 }
 
-export function saveCustomCommandsToFile(
-  map: Map<string, string>,
-  command: string,
-  value: string,
-  filePath: string
-) {
-  map.set(command, value);
-  const commands: { key: string; value: string }[] = [];
-  map.forEach((value, key) => {
-    commands.push({ key, value });
+export function getLinks() {
+  return Command.find({
+    select: ['key', 'value', 'type'],
+    where: { type: 'link' }
   });
-  writeFileSync(filePath, JSON.stringify(commands));
 }

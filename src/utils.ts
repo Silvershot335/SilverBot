@@ -1,5 +1,4 @@
 import { RichEmbed } from 'discord.js';
-import { readFileSync } from 'fs';
 
 export const functions = [
   'aesthetic',
@@ -12,7 +11,8 @@ export const functions = [
   'help',
   'mchelp',
   'info',
-  'skip'
+  'skip',
+  'level'
 ];
 
 export const songs: { title: string; duration: number }[] = [
@@ -51,6 +51,5 @@ export const songs: { title: string; duration: number }[] = [
 
 export const infoMessageEmbed = new RichEmbed().setColor('#0099ff');
 
-export const [username, password] = readFileSync('./api.txt', 'utf-8').split(
-  ':'
-);
+export const username = process.env.API_USER!;
+export const password = process.env.API_PASS!;

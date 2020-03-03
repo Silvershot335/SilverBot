@@ -8,7 +8,9 @@
     "trailing-comma": false,
     "no-shadowed-variable": false,
     "array-type": [true, "array"],
-    "no-string-literal":false
+    "no-string-literal": false,
+    "member-access": false,
+    "interface-name": false
   },
   "rulesDirectory": []
 }

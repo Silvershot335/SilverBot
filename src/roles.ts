@@ -12,7 +12,6 @@ export function handleRoleCommands(message: Message) {
 
     member.addRole(role).catch(logger.error);
     message.channel.send('Role Added: Venice');
-    logger.info(message.content);
   }
   if (
     message.content.match('you just advanced to level 10!') &&
@@ -52,7 +51,9 @@ export function handleRoleCommands(message: Message) {
     message.content.match('Achtung <@![0-9]{18}>, you just hit level 1!') &&
     message.mentions.members.size === 1
   ) {
-    const role = message.guild.roles.find((role) => role.name === 'Popmart Shoppers');
+    const role = message.guild.roles.find(
+      (role) => role.name === 'Popmart Shoppers'
+    );
     const member = message.mentions.members.first();
 
     member.addRole(role).catch(logger.error);
