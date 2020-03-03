@@ -2,10 +2,10 @@
   "name": "silverbot",
   "version": "1.0.0",
   "description": "Wavy, Baby",
-  "main": "lib/bot.js",
+  "main": "lib",
   "scripts": {
     "start": "npm run compile && concurrently \"npm:run-node\" \"npm:compile-watch\"",
-    "run-node": "nodemon .",
+    "run-node": "nodemon -r dotenv/config .",
     "compile": "tsc",
     "compile-watch": "tsc --watch",
     "start-batch": "node .",
@@ -26,14 +26,18 @@
   },
   "homepage": "https://github.com/Silvershot335/SilverBot#readme",
   "dependencies": {
-    "@types/node-fetch": "^2.5.4",
     "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.1",
+    "pg": "^7.18.2",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.24",
     "winston": "^3.2.1"
   },
   "devDependencies": {
     "@types/node": "^12.12.14",
+    "@types/node-fetch": "^2.5.4",
     "concurrently": "^5.0.0",
     "pre-commit": "^1.2.2",
     "tslint": "^5.20.1",

@@ -105,5 +105,6 @@ dist
 .tern-port
 
 lib/**
+lib/
 
 api.txt
