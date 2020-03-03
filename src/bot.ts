@@ -20,8 +20,8 @@ function handleSimpleReplies(message: Message) {
       return;
   }
   if (
-    message.content.includes('subjective') ||
-    message.content.includes('objective')
+    message.content.toLowerCase().includes('subjective') ||
+    message.content.toLowerCase().includes('objective')
   ) {
     message.react('👎');
     message.channel.send('Stop Saying That.');

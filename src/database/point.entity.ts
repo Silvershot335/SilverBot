@@ -9,6 +9,9 @@ export class Point extends BaseEntity {
   userID!: string;
 
   @Column()
+  serverID!: string;
+
+  @Column()
   timestamp!: string;
 
   @Column()

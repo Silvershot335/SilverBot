@@ -43,7 +43,8 @@ export function giveUserPoints(message: Message) {
   }
   const timestamp = getNow();
   const userID = message.author.id;
-  return Point.findOne({ userID, timestamp }).then(async (value) => {
+  const serverID = message.channel.id;
+  return Point.findOne({ userID, timestamp, serverID }).then(async (value) => {
     // if there is not a point value for that user in this minute
     if (!value) {
       // Pick a number 0 - 10
@@ -58,13 +59,13 @@ export function giveUserPoints(message: Message) {
       if (currentLevel) {
         // If the amount of points gained for
         // the current message + their current points > how many xp required to level up
-        if (previousPoints + points > currentLevel.experience) {
+     /*   if (previousPoints + points > currentLevel.experience) {
           message.channel.send(
             'Congratulations, you leveled up to level ' + currentLevel.level
           );
-        }
+        }*/
       }
-      Point.create({ userID, timestamp, points })
+      Point.create({ userID, timestamp, points, serverID })
         .save()
         .catch(logger.error);
     }
@@ -75,6 +76,6 @@ export function generateLevels() {
   let experience = 20;
   for (let i = 1; i < Number(process.env.MAX_DISC_LEVEL || 100); ++i) {
     levels.push({ level: i, experience });
-    experience *= 2;
+    experience = Math.round(experience * 2);
   }
 }
