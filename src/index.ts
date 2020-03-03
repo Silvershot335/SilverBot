@@ -8,5 +8,4 @@ createConnection()
   })
   .catch((err) => {
     logger.error(err);
-    createBot(null);
   });

@@ -1,5 +1,4 @@
 import { RichEmbed } from 'discord.js';
-import { readFileSync } from 'fs';
 
 export const functions = [
   'aesthetic',

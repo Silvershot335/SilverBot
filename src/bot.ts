@@ -2,7 +2,7 @@ import { Client, Message } from 'discord.js';
 import { Connection } from 'typeorm';
 import { logger } from './logger';
 import { setMemes } from './meme';
-import { handleBotPing, lookForLink, setCommandsAndLinks } from './pinged-bot';
+import { handleBotPing, lookForLink } from './pinged-bot';
 import { giveUserPoints } from './points';
 import { handleRoleCommands } from './roles';
 import { playSong } from './song';
@@ -31,16 +31,14 @@ function handleSimpleReplies(message: Message) {
   }
 }
 
-export function createBot(connection: Connection | null) {
+export function createBot(connection: Connection) {
   const bot = new Client();
 
   bot.on('ready', () => {
     logger.info('Connected!');
     logger.info(`Logged in as ${bot.user.tag}!`);
 
-    setCommandsAndLinks();
-
-    setMemes();
+    setMemes(connection);
 
     playSong(bot, 'Airplane');
   });
@@ -55,7 +53,7 @@ export function createBot(connection: Connection | null) {
     }
 
     // if the database connection was successful
-    if (connection !== null) {
+    if (connection) {
       await giveUserPoints(message);
     }
 

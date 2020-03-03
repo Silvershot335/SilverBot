@@ -1,15 +1,15 @@
-let memes: { id: string; name: string; url: string }[] = [];
-import { readFileSync, writeFileSync } from 'fs';
+import { Connection } from 'typeorm';
+import { Meme } from './database/meme.entity';
 import { password, username } from './utils';
 
-export function getId(firstInput: string): number {
+export async function getId(firstInput: string): Promise<number> {
   // If the firstInput is a number
   if (!Number.isNaN(Number(firstInput))) {
     // type it to a number and return it
     return Number(firstInput);
   } else {
     // Otherwise look for the meme with its name
-    for (const meme of memes) {
+    for (const meme of await Meme.find()) {
       if (meme.name.toLowerCase().includes(firstInput.toLowerCase())) {
         // and return the id with the found name
         return Number(meme.id);
@@ -31,7 +31,7 @@ export async function makeMeme(input: string[]) {
 
   const startingURL = 'https://api.imgflip.com/caption_image';
   // find meme id from first item in array
-  const templateId = getId(input[0]);
+  const templateId = await getId(input[0]);
   // if id is not found, return error message
   if (templateId === -1) {
     return Promise.resolve('Meme not found!');
@@ -75,9 +75,18 @@ export async function makeMeme(input: string[]) {
     });
 }
 
-export function setMemes() {
+interface MemeData {
+  id: string;
+  name: string;
+  url: string;
+  width: number;
+  height: number;
+  box_count: number;
+}
+
+export async function setMemes(connection: Connection) {
   // read the file
-  memes = JSON.parse(readFileSync('./config/memes.json', 'utf8'));
+  const memes = await Meme.find();
   // if the file does not have anything in it
   if (!memes) {
     // do a request to get all of the memes
@@ -86,8 +95,18 @@ export function setMemes() {
       .then((json) => {
         if (json && json['data']) {
           // set the memes array and save it to disk
-          memes = json['data']['memes'];
-          writeFileSync('./config/memes.json', JSON.stringify(memes));
+          /*
+            "id": "181913649",
+            "name": "Drake Hotline Bling",
+            "url": "https://i.imgflip.com/30b1gx.jpg",
+            "width": 1200,
+            "height": 1200,
+            "box_count": 2
+          */
+          const memeData: MemeData[] = json['data']['memes'];
+          const allMemes: Meme[] = memeData.map((meme) => Meme.create(meme));
+          connection.getRepository(Meme).save(allMemes);
+          // writeFileSync('./config/memes.json', JSON.stringify(memes));
         }
       });
   }

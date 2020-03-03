@@ -1,5 +1,6 @@
 import { Client, Message } from 'discord.js';
-import { readCommands, saveCustomCommandsToFile } from './commands';
+import { getCommands, getLinks } from './commands';
+import { Command } from './database/command.entity';
 import { generateInfoMessage } from './info';
 import { parseInput } from './input';
 import { logger } from './logger';
@@ -13,7 +14,6 @@ const links: Map<string, string> = new Map();
 // These commands function when the bot is @pinged first.
 export function handleBotPing(message: Message, bot: Client) {
   const input = parseInput(message.content, bot);
-  let reply = '';
 
   // base the logic from the input
   switch (input.command.trim()) {
@@ -72,56 +72,63 @@ export function handleBotPing(message: Message, bot: Client) {
       break;
 
     case 'store':
-      saveCustomCommandsToFile(
-        commands,
-        input.key,
-        input.value,
-        './config/commands.json'
-      );
+      Command.create({
+        key: input.key,
+        value: input.value,
+        type: 'command'
+      }).save();
       message.delete();
       message.reply(`Stored command ${input.key} value: ${input.value}`);
       break;
 
     case 'link':
-      saveCustomCommandsToFile(
-        links,
-        input.key,
-        input.value,
-        './config/links.json'
-      );
+      Command.create({
+        key: input.key,
+        value: input.value,
+        type: 'link'
+      });
       break;
 
     case 'commands':
-      commands.forEach((value, key) => {
-        reply += `${key} -> ${value}\n`;
+      getCommands().then((commands) => {
+        const response = commands
+          .map((c) => `${c.key} -> ${c.value}`)
+          .join('\n');
+
+        message.channel.send(response);
       });
-      message.channel.send(reply);
       break;
 
     case 'links':
-      links.forEach((value, key) => {
-        reply += `${key} -> ${value}\n`;
+      getLinks().then((commands) => {
+        const response = commands
+          .map((c) => `${c.key} -> ${c.value}`)
+          .join('\n');
+
+        message.delete();
+        message.channel.send(response);
       });
-      message.delete();
-      message.channel.send(reply);
       break;
 
     default:
-      if (commands.has(input.key)) {
-        message.channel.send(commands.get(input.key));
-      }
+      Command.findOne({ where: { key: input.key, type: 'command' } }).then(
+        (command) => {
+          if (command) {
+            message.channel.send(commands.get(input.key));
+          }
+        }
+      );
       break;
   }
 }
 
-export function setCommandsAndLinks() {
-  readCommands(commands, './config/commands.json');
-  readCommands(links, './config/links.json');
-}
-
 export function lookForLink(message: Message) {
-  if (links.has(message.content.trim())) {
-    message.channel.send(links.get(message.content.trim()));
-    message.delete();
-  }
+  Command.findOne({
+    where: { key: message.content.trim(), type: 'link' }
+  }).then((command) => {
+    if (command) {
+      message.channel.send(links.get(message.content.trim()));
+      message.delete();
+    }
+  });
 }

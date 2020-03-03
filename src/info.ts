@@ -1,8 +1,7 @@
 import { GuildMember, Message, TextChannel } from 'discord.js';
 import { RichEmbed } from 'discord.js';
-import { infoMessageEmbed } from './utils';
 
-interface IMemberJoinedAt {
+interface MemberJoinedAt {
   member: GuildMember;
   joinedAt: Date;
 }
@@ -22,7 +21,7 @@ export function generateInfoMessage(message: Message) {
   // if we are in a text channel
   if (asTextChannel) {
     // get all of the members from the channel, and sort them by the time they joined
-    const members: IMemberJoinedAt[] = asTextChannel.members
+    const members: MemberJoinedAt[] = asTextChannel.members
       .array()
       .map((member) => ({ member, joinedAt: member.joinedAt }))
       .sort(
