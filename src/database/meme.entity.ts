@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Meme extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @Column({ primary: true })
   id!: string;
 
   @Column({ primary: true })
@@ -17,6 +17,6 @@ export class Meme extends BaseEntity {
   @Column()
   height!: number;
 
-  @Column()
+  @Column({ nullable: true })
   boxCount!: number;
 }

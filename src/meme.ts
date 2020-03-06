@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import { Connection } from 'typeorm';
 import { Meme } from './database/meme.entity';
 import { password, username } from './utils';
@@ -8,16 +9,13 @@ export async function getId(firstInput: string): Promise<number> {
     // type it to a number and return it
     return Number(firstInput);
   } else {
-    // Otherwise look for the meme with its name
-    for (const meme of await Meme.find()) {
-      if (meme.name.toLowerCase().includes(firstInput.toLowerCase())) {
-        // and return the id with the found name
-        return Number(meme.id);
-      }
-    }
+    const memes = (await Meme.find()).map((m) => ({
+      ...m,
+      name: m.name.toLowerCase()
+    }));
+    const meme = memes.find((m) => m.name === firstInput.toLowerCase());
+    return Number(meme?.id || -1);
   }
-  // return -1 if never found
-  return -1;
 }
 
 export async function makeMeme(input: string[]) {
@@ -30,19 +28,19 @@ export async function makeMeme(input: string[]) {
   }
 
   const startingURL = 'https://api.imgflip.com/caption_image';
-  // find meme id from first item in array
-  const templateId = await getId(input[0]);
-  // if id is not found, return error message
-  if (templateId === -1) {
-    return Promise.resolve('Meme not found!');
-  }
 
   // start constructing payload to send to imgflip API
   const payload: any = {
-    template_id: templateId,
+    // find meme id from first item in array
+    template_id: await getId(input[0]),
     username,
     password
   };
+
+  // if id is not found, exit and return error message
+  if (payload.template_id === -1) {
+    return Promise.resolve('Meme not found!');
+  }
 
   // loop through input and add it to the request
   for (let i = 1; i < input.length; ++i) {
@@ -95,18 +93,9 @@ export async function setMemes(connection: Connection) {
       .then((json) => {
         if (json && json['data']) {
           // set the memes array and save it to disk
-          /*
-            "id": "181913649",
-            "name": "Drake Hotline Bling",
-            "url": "https://i.imgflip.com/30b1gx.jpg",
-            "width": 1200,
-            "height": 1200,
-            "box_count": 2
-          */
           const memeData: MemeData[] = json['data']['memes'];
           const allMemes: Meme[] = memeData.map((meme) => Meme.create(meme));
           connection.getRepository(Meme).save(allMemes);
-          // writeFileSync('./config/memes.json', JSON.stringify(memes));
         }
       });
   }
