@@ -56,15 +56,15 @@ export function giveUserPoints(message: Message) {
         (level) => previousPoints < level.experience
       );
       // If there is a level with more xp than they currently have
-      if (currentLevel) {
+      /*if (currentLevel) {
         // If the amount of points gained for
         // the current message + their current points > how many xp required to level up
-     /*   if (previousPoints + points > currentLevel.experience) {
+        if (previousPoints + points > currentLevel.experience) {
           message.channel.send(
             'Congratulations, you leveled up to level ' + currentLevel.level
           );
-        }*/
-      }
+        }
+      }*/
       Point.create({ userID, timestamp, points, serverID })
         .save()
         .catch(logger.error);
