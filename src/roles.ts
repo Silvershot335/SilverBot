@@ -48,7 +48,7 @@ export function handleRoleCommands(message: Message) {
     man2.removeRole(roll2).catch(logger.error);
   }
   if (
-    message.content.match('Achtung <@![0-9]{18}>, you just hit level 1!') &&
+    message.content.match('Congratulations <@![0-9]{18}>, you leveled up to level 1') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find(
@@ -59,7 +59,7 @@ export function handleRoleCommands(message: Message) {
     member.addRole(role).catch(logger.error);
   }
   if (
-    message.content.match('Achtung <@![0-9]{18}>, you just hit level 5!') &&
+    message.content.match('Congratulations <@![0-9]{18}>, you leveled up to level 5') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'ZooBabies');
@@ -68,7 +68,7 @@ export function handleRoleCommands(message: Message) {
     member.addRole(role).catch(logger.error);
   }
   if (
-    message.content.match('Achtung <@![0-9]{18}>, you just hit level 10!') &&
+    message.content.match('Congratulations <@![0-9]{18}>, you leveled up to level 1') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Boys');
@@ -77,7 +77,7 @@ export function handleRoleCommands(message: Message) {
     member.addRole(role).catch(logger.error);
   }
   if (
-    message.content.match('Achtung <@![0-9]{18}>, you just hit level 15!') &&
+    message.content.match('Congratulations <@![0-9]{18}>, you leveled up to level 15') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Wanderers');
@@ -86,7 +86,7 @@ export function handleRoleCommands(message: Message) {
     member.addRole(role).catch(logger.error);
   }
   if (
-    message.content.match('Achtung <@![0-9]{18}>, you just hit level 20!') &&
+    message.content.match('Congratulations <@![0-9]{18}>, you leveled up to level 20') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Refugees');
@@ -95,7 +95,7 @@ export function handleRoleCommands(message: Message) {
     member.addRole(role).catch(logger.error);
   }
   if (
-    message.content.match('Achtung <@![0-9]{18}>, you just hit level 25!') &&
+    message.content.match('Congratulations <@![0-9]{18}>, you leveled up to level 25') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Passengers');
@@ -104,7 +104,7 @@ export function handleRoleCommands(message: Message) {
     member.addRole(role).catch(logger.error);
   }
   if (
-    message.content.match('Achtung <@![0-9]{18}>, you just hit level 30!') &&
+    message.content.match('Congratulations <@![0-9]{18}>, you leveled up to level 30') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Landladies');
@@ -113,7 +113,7 @@ export function handleRoleCommands(message: Message) {
     member.addRole(role).catch(logger.error);
   }
   if (
-    message.content.match('Achtung <@![0-9]{18}>, you just hit level 35!') &&
+    message.content.match('Congratulations <@![0-9]{18}>, you leveled up to level 35') &&
     message.mentions.members.size === 1
   ) {
     const role = message.guild.roles.find((role) => role.name === 'Cockatoos');

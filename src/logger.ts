@@ -13,6 +13,7 @@ const fileFormat = format.combine(
 export const logger = createLogger({
   level: 'info',
   transports: [
+
     new transports.File({
       filename: 'error.log',
       level: 'error',
