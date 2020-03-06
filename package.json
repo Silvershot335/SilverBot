@@ -8,6 +8,7 @@
     "run-node": "nodemon -r dotenv/config .",
     "compile": "tsc",
     "compile-watch": "tsc --watch",
+    "prod": "npm run compile && npm run start-batch",
     "start-batch": "node -r dotenv/config . production",
     "lint": "tslint -p src"
   },
