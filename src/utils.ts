@@ -12,7 +12,8 @@ export const functions = [
   'mchelp',
   'info',
   'skip',
-  'level'
+  'level',
+  'add-levels'
 ];
 
 export const songs: { title: string; duration: number }[] = [

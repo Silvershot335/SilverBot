@@ -5,7 +5,7 @@ import { generateInfoMessage } from './info';
 import { parseInput } from './input';
 import { logger } from './logger';
 import { makeMeme } from './meme';
-import { findUserLevel } from './points';
+import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
 
 const commands: Map<string, string> = new Map();
@@ -32,6 +32,23 @@ export function handleBotPing(message: Message, bot: Client) {
             .catch(logger.error);
         })
         .catch(logger.error);
+      break;
+
+    case 'add-levels':
+      addLevels(input, message)
+        .then((success) => {
+          if (success) {
+            message.author
+              .createDM()
+              .then((dmChannel) => {
+                const person = message.guild.member(input.key);
+                dmChannel.send(`${person.displayName} is now level ${success}`);
+              })
+              .catch(logger.error);
+          }
+        })
+        .catch(logger.error);
+
       break;
 
     case 'info':
