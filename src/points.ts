@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
 import { Point } from './database/point.entity';
+import { FormattedInput } from './input';
 import { logger } from './logger';
 
 const levels: Level[] = [];
@@ -81,4 +82,103 @@ export function generateLevels() {
     levels.push({ level: i, experience });
     experience = Math.round(experience * 2);
   }
+}
+
+async function checkAddLevelHelp(
+  input: FormattedInput,
+  message: Message
+): Promise<boolean> {
+  const member = message.guild.member(input.key);
+  if (input.key === 'help' || !member) {
+    await message.author
+      .createDM()
+      .then((dmChannel) => {
+        dmChannel.send('Usage: @SilverBot add-levels {userID} {levelToGoTo}');
+      })
+      .catch(logger.error);
+    return true;
+  }
+  if (member.user.bot) {
+    await message.author
+      .createDM()
+      .then((dmChannel) => {
+        dmChannel.send('Cannot add levels to a bot!');
+      })
+      .catch(logger.error);
+    return true;
+  }
+  return Promise.resolve(false);
+}
+
+async function addXPUntilNextLevel(
+  input: FormattedInput,
+  userID: string,
+  nextLevel: Level,
+  serverID: string
+) {
+  const previousXP = await findPreviousPoints(userID);
+  let missingXP = nextLevel.experience - previousXP;
+
+  while (missingXP > 2_000_000_000) {
+    await Point.create({
+      userID,
+      timestamp: '1',
+      points: 2_000_000_000,
+      serverID
+    })
+      .save()
+      .catch(logger.error);
+    missingXP -= 2_000_000_000;
+  }
+  if (missingXP > 0 && missingXP < 2_000_000_000) {
+    await Point.create({
+      userID,
+      timestamp: '1',
+      points: missingXP,
+      serverID
+    })
+      .save()
+      .catch(logger.error);
+  }
+  return await findUserLevel(input.key);
+}
+
+async function addUntilMaxLevel(
+  input: FormattedInput,
+  userID: string,
+  serverID: string
+) {
+  let userLevel = await findUserLevel(userID);
+  while (userLevel < Number(input.value)) {
+    const nextLevel = levels.find((level) => level.level === userLevel + 1);
+    if (nextLevel) {
+      userLevel = await addXPUntilNextLevel(input, userID, nextLevel, serverID);
+    }
+  }
+  return userLevel;
+}
+
+export async function addLevels(
+  input: FormattedInput,
+  message: Message
+): Promise<null | number> {
+  // if author is Judah or Chris
+  if (
+    message.author.id === '177116185006047232' ||
+    message.author.id === '167804931439329280'
+  ) {
+    if (levels.length === 0) {
+      generateLevels();
+    }
+    if (await checkAddLevelHelp(input, message)) {
+      return null;
+    }
+
+    // userID of the user to give levels to
+    const userID = input.key;
+    const serverID = message.channel.id;
+
+    return addUntilMaxLevel(input, userID, serverID);
+  }
+  return Promise.resolve(null);
 }

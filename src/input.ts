@@ -1,7 +1,15 @@
 import { Client } from 'discord.js';
 import { functions } from './utils';
 
-export function parseInput(message: string, bot: Client) {
+export interface FormattedInput {
+  command: string;
+  key: string;
+  value: string;
+  all: string;
+  memeData: string[];
+}
+
+export function parseInput(message: string, bot: Client): FormattedInput {
   // strip bot ping from message
   let key = message.substring(bot.user.id.length + '<@> '.length).trim();
   // count number of "" quotes
@@ -21,7 +29,7 @@ export function parseInput(message: string, bot: Client) {
 
   let commands: string[];
   // if there is an even number of quotes
-  if (quoteCount % 2 === 0) {
+  if (quoteCount % 2 === 0 && quoteCount !== 0) {
     // keep the items in the quotes together
     commands = key
       .split('"')
@@ -49,18 +57,20 @@ export function parseInput(message: string, bot: Client) {
     memeData = commands;
   } else {
     // otherwise, do as before
-    command = commands[0];
-    key = commands[1];
+    command = commands[0]?.trim() || '';
+    key = commands[1]?.trim() || '';
   }
 
   // set all to be all of the input except the command name
-  const all = commands
-    .filter((item) => item !== command)
-    .map((item) => item.trim())
-    .join(' ');
+  const all =
+    commands
+      .filter((item) => item !== command)
+      .map((item) => item.trim())
+      .join(' ')
+      ?.trim() || '';
 
   // remove the key from all
-  const value = all.replace(key, '');
+  const value = all.replace(key, '')?.trim() || '';
 
   return {
     command,
