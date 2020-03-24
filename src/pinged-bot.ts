@@ -131,7 +131,7 @@ export function handleBotPing(message: Message, bot: Client) {
       Command.findOne({ where: { key: input.key, type: 'command' } }).then(
         (command) => {
           if (command) {
-            message.channel.send(commands.get(input.key));
+            message.channel.send(command.value);
           }
         }
       );
