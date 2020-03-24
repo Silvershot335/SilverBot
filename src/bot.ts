@@ -19,15 +19,18 @@ function handleSimpleReplies(message: Message) {
       message.react('585982309451300864');
       return;
   }
-  if (
+ /* if (
     message.content.toLowerCase().includes('subjective') ||
     message.content.toLowerCase().includes('objective')
   ) {
-    message.react('👎');
-    message.channel.send('Stop Saying That.');
-  }
+    message.react('😒');
+  }*/
   if (message.content.toLowerCase().match('(?:^| )(v|V)u(?: |$)')) {
     message.channel.send('We do not speak its name.');
+  }
+  if (message.content.toLowerCase().match('get on your boots')) {
+    message.channel.send('Sexy Boots');
+    message.react('462479805229826058');
   }
 }
 

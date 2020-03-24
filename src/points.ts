@@ -61,9 +61,9 @@ export function giveUserPoints(message: Message) {
         // If the amount of points gained for
         // the current message + their current points > how many xp required to level up
         if (previousPoints + points > currentLevel.experience) {
-          // message.channel.send(
-          //   'Congratulations, you leveled up to level ' + currentLevel.level
-          // );
+          message.channel.send(
+            'Congratulations, you leveled up to level ' + currentLevel.level
+          );
           logger.debug(
             `${message.author.username} leveled up to level ${currentLevel.level}!`
           );
