@@ -29,7 +29,7 @@ function handleSimpleReplies(message: Message) {
     message.channel.send('We do not speak its name.');
   }
   if (message.content.toLowerCase().match('get on your boots')) {
-    message.channel.send('Sexy Boots');
+    message.channel.send('The Future Needs a Big Kiss.');
     message.react('462479805229826058');
   }
 }

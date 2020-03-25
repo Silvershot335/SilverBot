@@ -103,7 +103,8 @@ export function handleBotPing(message: Message, bot: Client) {
         key: input.key,
         value: input.value,
         type: 'link'
-      });
+      }).save();
+      message.reply(`Stored link ${input.key} value: ${input.value}`);
       break;
 
     case 'commands':
@@ -144,7 +145,7 @@ export function lookForLink(message: Message) {
     where: { key: message.content.trim(), type: 'link' }
   }).then((command) => {
     if (command) {
-      message.channel.send(links.get(message.content.trim()));
+      message.channel.send(command.value);
       message.delete();
     }
   });
