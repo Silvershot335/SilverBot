@@ -1,5 +1,7 @@
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
+import { LessThanOrEqual } from 'typeorm';
 import { Point } from './database/point.entity';
+import { Role } from './database/role.entity';
 import { FormattedInput } from './input';
 import { logger } from './logger';
 
@@ -38,17 +40,26 @@ function getRandomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function giveUserPoints(message: Message) {
-  if (levels.length === 0) {
-    generateLevels();
-  }
-  const timestamp = getNow();
-  const userID = message.author.id;
-  const serverID = message.channel.id;
-  return Point.findOne({ userID, timestamp, serverID }).then(async (value) => {
+async function getUsersRole(serverID: string, currentLevel: Level) {
+  const roles = await Role.find({
+    serverID,
+    level: LessThanOrEqual(currentLevel.level)
+  });
+  return roles.map((role) => role.role);
+}
+
+export async function giveUserPoints(message: Message) {
+  if (message.channel instanceof TextChannel) {
+    if (levels.length === 0) {
+      generateLevels();
+    }
+    const timestamp = getNow();
+    const userID = message.author.id;
+    const serverID = message.channel.guild.id;
+    const value = await Point.findOne({ userID, timestamp, serverID });
     // if there is not a point value for that user in this minute
     if (!value) {
-      // Pick a number 0 - 10
+      // Pick a number 5 - 8
       const points = getRandomNumber(5, 8);
       // Look in the database for how many points the user had previously
       const previousPoints = await findPreviousPoints(userID);
@@ -56,14 +67,42 @@ export function giveUserPoints(message: Message) {
       const currentLevel = levels.find(
         (level) => previousPoints < level.experience
       );
-      // If there is a level with more xp than they currently have
+      // If there is a level with more xp than they currently have (100 or less)
       if (currentLevel) {
-        // If the amount of points gained for
-        // the current message + their current points > how many xp required to level up
+        // If they  leveled up
         if (previousPoints + points > currentLevel.experience) {
           message.channel.send(
             'Congratulations, you leveled up to level ' + currentLevel.level
           );
+          // person who sent the message
+          const user = message.guild.member(message.author);
+          // roles user should have
+          const usersRoles = await getUsersRole(serverID, currentLevel);
+          // roles that that person does not have but should have
+          const roles = usersRoles.filter(
+            (roleName) =>
+              !user.roles.array().some((role) => {
+                return role.name === roleName;
+              })
+          );
+          if (roles.length) {
+            // for each role they don't have
+            for (const roleToAdd of roles) {
+              // add it
+              user
+                .addRole(
+                  message.guild.roles.find(
+                    (existingRole) => roleToAdd === existingRole.name
+                  )
+                )
+                .catch(logger.error);
+            }
+            if (roles.length > 1) {
+              message.channel.send(`Roles Added: ${roles.join(', ')}`);
+            } else {
+              message.channel.send(`Role Added: ${roles[0]}`);
+            }
+          }
           logger.debug(
             `${message.author.username} leveled up to level ${currentLevel.level}!`
           );
@@ -73,7 +112,9 @@ export function giveUserPoints(message: Message) {
         .save()
         .catch(logger.error);
     }
-  });
+  } else {
+    return Promise.resolve();
+  }
 }
 
 export function generateLevels() {

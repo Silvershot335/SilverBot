@@ -1,4 +1,12 @@
-`insert into point ("userID", "serverID", "timestamp", "points") values ('204801890985181185', '455274725476794368', '1', 160);`
+```sql
+# To Add Points
+insert into point ("userID", "serverID", "timestamp", "points") values ('204801890985181185', '455274725476794368', '1', 160);
+```
+
+```sql
+# To Add Roles
+insert into role (level, role, "serverID") values (5, 'My Case Sensitive Role Name', '1234567890');
+```
 
 | Level | Experience   |  
 | ----- | -----------  |
@@ -38,7 +46,7 @@
 | 34    | 171798691840 |
 | 35    | 343597383680 |
 
-```
+```json
 [
   { level: 1, experience: 20 },
   { level: 2, experience: 40 },
