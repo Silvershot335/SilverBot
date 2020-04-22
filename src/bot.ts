@@ -19,8 +19,8 @@ function handleSimpleReplies(message: Message) {
       message.react('585982309451300864');
       return;
   }
- /* if (
-    message.content.toLowerCase().includes('subjective') ||
+  /* 10if (
+  1  message.content.toLowerCase().includes('subjective') ||
     message.content.toLowerCase().includes('objective')
   ) {
     message.react('😒');

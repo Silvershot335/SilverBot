@@ -13,7 +13,8 @@ export const functions = [
   'info',
   'skip',
   'level',
-  'add-levels'
+  'add-levels',
+  'portal'
 ];
 
 export const songs: { title: string; duration: number }[] = [

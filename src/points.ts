@@ -60,7 +60,7 @@ export async function giveUserPoints(message: Message) {
     // if there is not a point value for that user in this minute
     if (!value) {
       // Pick a number 5 - 8
-      const points = getRandomNumber(5, 8);
+      const points = getRandomNumber(10, 10);
       // Look in the database for how many points the user had previously
       const previousPoints = await findPreviousPoints(userID);
       // Find the users current level by the first level where they do not have that much XP

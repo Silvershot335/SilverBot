@@ -1,11 +1,12 @@
+import { addLevels, findUserLevel } from './points';
 import { Client, Message } from 'discord.js';
-import { getCommands, getLinks } from './commands';
 import { Command } from './database/command.entity';
 import { generateInfoMessage } from './info';
+import { getCommands, getLinks } from './commands';
 import { parseInput } from './input';
 import { logger } from './logger';
 import { makeMeme } from './meme';
-import { addLevels, findUserLevel } from './points';
+import { portalcalc } from './math';
 import { skipSong } from './song';
 
 const commands: Map<string, string> = new Map();
@@ -19,6 +20,10 @@ export function handleBotPing(message: Message, bot: Client) {
   switch (input.command.trim()) {
     case 'skip':
       skipSong(bot);
+      break;
+
+    case 'portal':
+      message.channel.send(portalcalc(message, bot));
       break;
 
     case 'level':
@@ -92,7 +97,7 @@ export function handleBotPing(message: Message, bot: Client) {
       Command.create({
         key: input.key,
         value: input.value,
-        type: 'command'
+        type: 'command',
       }).save();
       message.delete();
       message.reply(`Stored command ${input.key} value: ${input.value}`);
@@ -102,7 +107,7 @@ export function handleBotPing(message: Message, bot: Client) {
       Command.create({
         key: input.key,
         value: input.value,
-        type: 'link'
+        type: 'link',
       }).save();
       message.reply(`Stored link ${input.key} value: ${input.value}`);
       break;
@@ -142,7 +147,7 @@ export function handleBotPing(message: Message, bot: Client) {
 
 export function lookForLink(message: Message) {
   Command.findOne({
-    where: { key: message.content.trim(), type: 'link' }
+    where: { key: message.content.trim(), type: 'link' },
   }).then((command) => {
     if (command) {
       message.channel.send(command.value);

@@ -86,7 +86,7 @@ export async function setMemes(connection: Connection) {
   // read the file
   const memes = await Meme.find();
   // if the file does not have anything in it
-  if (!memes) {
+  if (!memes || !memes.length) {
     // do a request to get all of the memes
     fetch('https://api.imgflip.com/get_memes')
       .then((res) => res.json())
