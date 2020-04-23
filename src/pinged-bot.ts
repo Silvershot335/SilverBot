@@ -1,12 +1,12 @@
-import { addLevels, findUserLevel } from './points';
 import { Client, Message } from 'discord.js';
+import { getCommands, getLinks } from './commands';
 import { Command } from './database/command.entity';
 import { generateInfoMessage } from './info';
-import { getCommands, getLinks } from './commands';
 import { parseInput } from './input';
 import { logger } from './logger';
-import { makeMeme } from './meme';
 import { portalcalc } from './math';
+import { makeMeme } from './meme';
+import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
 
 const commands: Map<string, string> = new Map();
@@ -127,8 +127,6 @@ export function handleBotPing(message: Message, bot: Client) {
         const response = commands
           .map((c) => `${c.key} -> ${c.value}`)
           .join('\n');
-
-        message.delete();
         message.channel.send(response);
       });
       break;
@@ -151,7 +149,6 @@ export function lookForLink(message: Message) {
   }).then((command) => {
     if (command) {
       message.channel.send(command.value);
-      message.delete();
     }
   });
 }
