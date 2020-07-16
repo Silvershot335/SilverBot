@@ -6,6 +6,7 @@ import { handleBotPing, lookForLink } from './pinged-bot';
 import { giveUserPoints } from './points';
 import { handleRoleCommands } from './roles';
 import { playSong } from './song';
+import { error } from 'console';
 
 function handleSimpleReplies(message: Message) {
   switch (message.content.trim()) {
@@ -33,7 +34,7 @@ function handleSimpleReplies(message: Message) {
     message.react('462479805229826058');
   }
   if (message.content.toLowerCase().match('litrightnow')) {
-    message.member.voiceChannel.join().then(connection => connection.playFile('C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3'));
+    message.member.voiceChannel.join().then(connection => connection.playFile('C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3')).catch(error);
   }
   /*if (message.content.toLowerCase().includes('vm.tiktok.com')) {
     message.member.kick('TikTok is BANNED');
