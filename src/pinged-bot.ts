@@ -86,13 +86,6 @@ export function handleBotPing(message: Message, bot: Client) {
       );
       break;
 
-    case 'mchelp':
-      message.delete(1);
-      message.author.send(
-        '**APOL MC Help**\nIn-Game Commands:\n/sethome\n/home\n/tpa <username>\n\nUseful links:\nhttps://tekxit.fandom.com/wiki/Tekxit_Wiki'
-      );
-      break;
-
     case 'store':
       Command.create({
         key: input.key,

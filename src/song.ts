@@ -26,7 +26,7 @@ export function playSong(
   // if we gave it a song
   if (songTitle) {
     // Change playing song right now to the song given
-    bot.user.setPresence({ game: { name: songTitle } });
+    bot.user.setPresence({ game: { name: songTitle, type: 'LISTENING' } });
 
     // Find how long the song is
     // if song duration is set, use that value

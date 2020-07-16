@@ -32,6 +32,13 @@ function handleSimpleReplies(message: Message) {
     message.channel.send('The Future Needs a Big Kiss.');
     message.react('462479805229826058');
   }
+  if (message.content.toLowerCase().match('litrightnow')) {
+    message.member.voiceChannel.join().then(connection => connection.playFile('C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3'));
+  }
+  /*if (message.content.toLowerCase().includes('vm.tiktok.com')) {
+    message.member.kick('TikTok is BANNED');
+    message.delete(1);
+  }*/
 }
 
 export function createBot(connection: Connection) {
