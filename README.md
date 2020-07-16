@@ -5,7 +5,7 @@ SilverBot is made as a learning exercise in JavaScript.
 
 Silverbot has a variety of commands.
 
-@Silverbot meme *name of meme or meme ID* "text" "box"
+@Silverbot meme -*name of meme or meme ID*- "text" "box"
   The meme command uses imgflip meme templates. Find the Meme ID in the URL (can support custom uploads) and fill in the number of text boxes in the quotes.
  
 @Silverbot level
