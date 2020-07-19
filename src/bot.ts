@@ -1,4 +1,4 @@
-import { Client, Message } from 'discord.js';
+import { Client, Message, StreamDispatcher } from 'discord.js';
 import { Connection } from 'typeorm';
 import { logger } from './logger';
 import { setMemes } from './meme';
@@ -8,7 +8,7 @@ import { handleRoleCommands } from './roles';
 import { playSong } from './song';
 import { error } from 'console';
 
-function handleSimpleReplies(message: Message) {
+function handleSimpleReplies(message: Message, bot: Client) {
   switch (message.content.trim()) {
     case 'F':
       message.channel.send('F');
@@ -33,13 +33,43 @@ function handleSimpleReplies(message: Message) {
     message.channel.send('The Future Needs a Big Kiss.');
     message.react('462479805229826058');
   }
-  if (message.content.toLowerCase().match('litrightnow')) {
+  /*if (message.content.toLowerCase().match('litrightnow')) {
     message.member.voiceChannel.join().then(connection => connection.playFile('C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3')).catch(error);
-  }
+  }*/
   /*if (message.content.toLowerCase().includes('vm.tiktok.com')) {
     message.member.kick('TikTok is BANNED');
     message.delete(1);
   }*/
+  if (message.content.toLowerCase().match('litrightnow')) {
+    message.member.voiceChannel
+    .join()
+    .then((connection) => {
+      const play = connection.playFile(
+        'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3'
+      );
+      play.on('end', () => {
+        connection.disconnect();
+      });
+    })
+    .catch(error);
+  }
+  if (message.content.toLowerCase().match('seashanty2')) {
+    message.member.voiceChannel
+    .join()
+    .then((connection) => {
+      const play = connection.playFile(
+        'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\SeaShanty2.mp3'
+      );
+      play.on('end', () => {
+        connection.disconnect();
+      });
+    })
+    .catch(error);
+  }
+  if (message.content.toLowerCase().match('leavevc')) {
+    bot.voiceConnections.forEach((connection) => connection.disconnect());
+  }
+
 }
 
 export function createBot(connection: Connection) {
@@ -68,7 +98,7 @@ export function createBot(connection: Connection) {
       await giveUserPoints(message);
     }
 
-    handleSimpleReplies(message);
+    handleSimpleReplies(message, bot);
 
     if (message.isMemberMentioned(bot.user)) {
       handleBotPing(message, bot);
