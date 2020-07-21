@@ -33,43 +33,45 @@ function handleSimpleReplies(message: Message, bot: Client) {
     message.channel.send('The Future Needs a Big Kiss.');
     message.react('462479805229826058');
   }
-  /*if (message.content.toLowerCase().match('litrightnow')) {
-    message.member.voiceChannel.join().then(connection => connection.playFile('C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3')).catch(error);
-  }*/
   /*if (message.content.toLowerCase().includes('vm.tiktok.com')) {
     message.member.kick('TikTok is BANNED');
     message.delete(1);
   }*/
   if (message.content.toLowerCase().match('litrightnow')) {
-    message.member.voiceChannel
-    .join()
-    .then((connection) => {
-      const play = connection.playFile(
-        'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3'
-      );
-      play.on('end', () => {
-        connection.disconnect();
-      });
-    })
-    .catch(error);
+    const VC = message.member.voiceChannel;
+    if (!VC) {
+      return message.reply('You Are Not In Voice Channel');
+    }
+    VC.join()
+      .then((connection) => {
+        const play = connection.playFile(
+          'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3'
+        );
+        play.on('end', () => {
+          connection.disconnect();
+        });
+      })
+      .catch((err) => console.log(err));
   }
   if (message.content.toLowerCase().match('seashanty2')) {
-    message.member.voiceChannel
-    .join()
-    .then((connection) => {
-      const play = connection.playFile(
-        'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\SeaShanty2.mp3'
-      );
-      play.on('end', () => {
-        connection.disconnect();
-      });
-    })
-    .catch(error);
+    const VC = message.member.voiceChannel;
+    if (!VC) {
+      return message.reply('You Are Not In Voice Channel');
+    }
+    VC.join()
+      .then((connection) => {
+        const play = connection.playFile(
+          'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\SeaShanty2.mp3'
+        );
+        play.on('end', () => {
+          connection.disconnect();
+        });
+      })
+      .catch(error);
   }
   if (message.content.toLowerCase().match('leavevc')) {
     bot.voiceConnections.forEach((connection) => connection.disconnect());
   }
-
 }
 
 export function createBot(connection: Connection) {
@@ -98,7 +100,7 @@ export function createBot(connection: Connection) {
       await giveUserPoints(message);
     }
 
-    handleSimpleReplies(message, bot);
+    handleSimpleReplies(message, bot, console);
 
     if (message.isMemberMentioned(bot.user)) {
       handleBotPing(message, bot);
