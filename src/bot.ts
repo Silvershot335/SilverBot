@@ -40,9 +40,9 @@ function handleSimpleReplies(message: Message, bot: Client) {
   if (message.content.toLowerCase().match('litrightnow')) {
     const VC = message.member.voiceChannel;
     if (!VC) {
-      return message.reply('You Are Not In Voice Channel');
+      message.reply('You Are Not In Voice Channel');
     }
-    VC.join()
+    else {VC.join()
       .then((connection) => {
         const play = connection.playFile(
           'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3'
@@ -51,14 +51,15 @@ function handleSimpleReplies(message: Message, bot: Client) {
           connection.disconnect();
         });
       })
-      .catch((err) => console.log(err));
+      .catch(error);
+    }
   }
   if (message.content.toLowerCase().match('seashanty2')) {
     const VC = message.member.voiceChannel;
     if (!VC) {
-      return message.reply('You Are Not In Voice Channel');
+      message.reply('You Are Not In Voice Channel');
     }
-    VC.join()
+    else { VC.join()
       .then((connection) => {
         const play = connection.playFile(
           'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\SeaShanty2.mp3'
@@ -68,6 +69,7 @@ function handleSimpleReplies(message: Message, bot: Client) {
         });
       })
       .catch(error);
+    }
   }
   if (message.content.toLowerCase().match('leavevc')) {
     bot.voiceConnections.forEach((connection) => connection.disconnect());
@@ -100,7 +102,7 @@ export function createBot(connection: Connection) {
       await giveUserPoints(message);
     }
 
-    handleSimpleReplies(message, bot, console);
+    handleSimpleReplies(message, bot);
 
     if (message.isMemberMentioned(bot.user)) {
       handleBotPing(message, bot);
