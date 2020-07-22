@@ -12,10 +12,6 @@
     "start-batch": "node -r dotenv/config . production",
     "lint": "tslint -p src"
   },
-  "pre-commit": [
-    "lint",
-    "compile"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Silvershot335/SilverBot.git"
