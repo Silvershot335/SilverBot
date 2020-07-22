@@ -1,4 +1,4 @@
-import { Client, Message, StreamDispatcher } from 'discord.js';
+import { Client, Message } from 'discord.js';
 import { Connection } from 'typeorm';
 import { logger } from './logger';
 import { setMemes } from './meme';
@@ -6,7 +6,7 @@ import { handleBotPing, lookForLink } from './pinged-bot';
 import { giveUserPoints } from './points';
 import { handleRoleCommands } from './roles';
 import { playSong } from './song';
-import { error } from 'console';
+import { checkVoiceCommands } from './voice';
 
 function handleSimpleReplies(message: Message, bot: Client) {
   switch (message.content.trim()) {
@@ -37,43 +37,7 @@ function handleSimpleReplies(message: Message, bot: Client) {
     message.member.kick('TikTok is BANNED');
     message.delete(1);
   }*/
-  if (message.content.toLowerCase().match('litrightnow')) {
-    const VC = message.member.voiceChannel;
-    if (!VC) {
-      message.reply('You Are Not In Voice Channel');
-    }
-    else {VC.join()
-      .then((connection) => {
-        const play = connection.playFile(
-          'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\LitRightNow.mp3'
-        );
-        play.on('end', () => {
-          connection.disconnect();
-        });
-      })
-      .catch(error);
-    }
-  }
-  if (message.content.toLowerCase().match('seashanty2')) {
-    const VC = message.member.voiceChannel;
-    if (!VC) {
-      message.reply('You Are Not In Voice Channel');
-    }
-    else { VC.join()
-      .then((connection) => {
-        const play = connection.playFile(
-          'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\SeaShanty2.mp3'
-        );
-        play.on('end', () => {
-          connection.disconnect();
-        });
-      })
-      .catch(error);
-    }
-  }
-  if (message.content.toLowerCase().match('leavevc')) {
-    bot.voiceConnections.forEach((connection) => connection.disconnect());
-  }
+  checkVoiceCommands(message, bot);
 }
 
 export function createBot(connection: Connection) {
