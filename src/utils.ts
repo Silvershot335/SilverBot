@@ -14,7 +14,10 @@ export const functions = [
   'skip',
   'level',
   'add-levels',
-  'portal'
+  'portal',
+  'play',
+  'stop',
+  'upload',
 ];
 
 export const songs: { title: string; duration: number }[] = [
@@ -51,7 +54,7 @@ export const songs: { title: string; duration: number }[] = [
   { title: '#wastehistime', duration: 216 },
   // Extra
   { title: 'VOCPOP', duration: 185 },
-  { title: 'Crimson', duration: 200 }
+  { title: 'Crimson', duration: 200 },
 ];
 
 export const infoMessageEmbed = new RichEmbed().setColor('#0099ff');
