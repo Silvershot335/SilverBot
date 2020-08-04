@@ -4,13 +4,11 @@ import { Command } from './database/command.entity';
 import { generateInfoMessage } from './info';
 import { parseInput } from './input';
 import { logger } from './logger';
-import { portalcalc } from './math';
+import { portalCalc } from './math';
 import { makeMeme } from './meme';
 import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
-
-const commands: Map<string, string> = new Map();
-const links: Map<string, string> = new Map();
+import { playSong, stopPlayingSong, uploadSong } from './voice';
 
 // These commands function when the bot is @pinged first.
 export function handleBotPing(message: Message, bot: Client) {
@@ -23,7 +21,7 @@ export function handleBotPing(message: Message, bot: Client) {
       break;
 
     case 'portal':
-      message.channel.send(portalcalc(message, bot));
+      message.channel.send(portalCalc(message, bot));
       break;
 
     case 'level':
@@ -122,6 +120,18 @@ export function handleBotPing(message: Message, bot: Client) {
           .join('\n');
         message.channel.send(response);
       });
+      break;
+
+    case 'upload':
+      uploadSong(input, message);
+      break;
+
+    case 'play':
+      playSong(input, message);
+      break;
+
+    case 'stop':
+      stopPlayingSong(bot);
       break;
 
     default:

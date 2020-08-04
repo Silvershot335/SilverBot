@@ -9,7 +9,7 @@
     "compile": "tsc",
     "compile-watch": "tsc --watch",
     "prod": "npm run compile && npm run start-batch",
-    "start-batch": "node -r dotenv/config . production",
+    "start-batch": "node -r dotenv/config .",
     "lint": "tslint -p src"
   },
   "repository": {
@@ -31,6 +31,7 @@
     "opusscript": "0.0.7",
     "pg": "^7.18.2",
     "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.0",
     "typeorm": "^0.2.24",
     "winston": "^3.2.1"
   },
