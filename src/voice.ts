@@ -56,7 +56,7 @@ export function checkVoiceCommands(message: Message, bot: Client) {
 export function uploadSong(input: FormattedInput, message: Message) {
   if (message.attachments.array().length) {
     for (const item of message.attachments.array()) {
-      if (item.url) {
+      if (item.url && item.url.endsWith('.mp3')) {
         let fileName: string;
         if (input.key) {
           fileName = input.key + '.mp3';
