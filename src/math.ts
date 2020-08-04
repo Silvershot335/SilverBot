@@ -1,6 +1,6 @@
 import { Client, Message } from 'discord.js';
 
-export function portalCalc(message: Message, bot: Client) {
+export function portalcalc(message: Message, bot: Client) {
   const coord = message.content.split(' ');
   const p1 = Number(coord[2]);
   const p2 = Number(coord[3]);
