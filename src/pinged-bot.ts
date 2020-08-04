@@ -8,7 +8,7 @@ import { portalcalc } from './math';
 import { makeMeme } from './meme';
 import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
-import { checkVoiceCommands } from './voice';
+import { playSong, stopPlayingSong, uploadSong } from './voice';
 
 const commands: Map<string, string> = new Map();
 const links: Map<string, string> = new Map();
@@ -123,6 +123,18 @@ export function handleBotPing(message: Message, bot: Client) {
           .join('\n');
         message.channel.send(response);
       });
+      break;
+
+      case 'upload':
+      uploadSong(input, message);
+      break;
+
+    case 'play':
+      playSong(input, message);
+      break;
+
+    case 'stop':
+      stopPlayingSong(bot);
       break;
 
     default:
