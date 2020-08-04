@@ -8,6 +8,7 @@ import { portalcalc } from './math';
 import { makeMeme } from './meme';
 import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
+import { checkVoiceCommands } from './voice';
 
 const commands: Map<string, string> = new Map();
 const links: Map<string, string> = new Map();
