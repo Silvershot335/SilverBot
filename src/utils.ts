@@ -18,6 +18,7 @@ export const functions = [
   'play',
   'stop',
   'upload',
+  'q',
 ];
 
 export const songs: { title: string; duration: number }[] = [
