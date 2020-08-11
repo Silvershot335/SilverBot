@@ -4,7 +4,7 @@ import { Command } from './database/command.entity';
 import { generateInfoMessage } from './info';
 import { parseInput } from './input';
 import { logger } from './logger';
-import { portalcalc, triviaCategories } from './math';
+import { portalcalc, roll, tCat } from './math';
 import { makeMeme } from './meme';
 import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
@@ -28,7 +28,11 @@ export function handleBotPing(message: Message, bot: Client) {
       break;
 
     case 'q':
-      message.channel.send(triviaCategories(message, bot));
+      message.channel.send(tCat(message, bot));
+      break;
+
+    case 'roll':
+      message.channel.send(roll(message, bot));
       break;
 
     case 'level':

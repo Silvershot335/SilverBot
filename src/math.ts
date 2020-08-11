@@ -10,25 +10,32 @@ export function portalcalc(message: Message, bot: Client) {
   return `${p11} ${p2} ${p33}`;
 }
 
-export function triviaCategories(message: Message, bot: Client) {
+export function roll(message: Message, bot: Client) {
+  const base = message.content.split (' ');
+  const n = Number(base[2]) + 1;
+  const r = Math.floor(Math.random() * n);
+  return `${r}`;
+}
+
+export function tCat(message: Message, bot: Client) {
   const q = Math.floor(Math.random() * 5);
   if (q === 0) {
-    message.channel.send('Geography');
+    return 'Geography 🌍';
   }
   if (q === 1) {
-    message.channel.send('Entertainment');
+    return 'Entertainment 🖥️';
   }
   if (q === 2) {
-    message.channel.send('History');
+    return 'History 🦕';
   }
   if (q === 3) {
-    message.channel.send('Art and Literature');
+    return 'Art and Literature 📖';
   }
   if (q === 4) {
-    message.channel.send('Science and Nature');
+    return 'Science and Nature 🧬';
   }
   if (q === 5) {
-    message.channel.send('Sports and Leisure');
+    return 'Sports and Leisure ⚾';
   }
-  return '🎲';
+  return 'It Broken Dood';
 }

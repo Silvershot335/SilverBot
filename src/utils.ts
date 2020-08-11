@@ -19,6 +19,7 @@ export const functions = [
   'stop',
   'upload',
   'q',
+  'roll',
 ];
 
 export const songs: { title: string; duration: number }[] = [
