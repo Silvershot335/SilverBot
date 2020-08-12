@@ -43,6 +43,26 @@ export function checkVoiceCommands(message: Message, bot: Client) {
     }
   }
 
+  if (message.content.toLowerCase().trim() === '\'') {
+    const winner = message.guild.member;
+    const VC = message.member.voiceChannel;
+    message.reply('You win!');
+    if (!VC) {
+      message.reply('You Are Not In Voice Channel');
+    } else {
+      VC.join()
+        .then((connection) => {
+          const play = connection.playFile(
+            'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\buzz.mp3'
+          );
+          play.on('end', () => {
+            connection.disconnect();
+          });
+        })
+        .catch(logger.error);
+    }
+  }
+
   if (message.content.toLowerCase().trim() === 'leavevc') {
     bot.voiceConnections.forEach((connection) => connection.disconnect());
   }
