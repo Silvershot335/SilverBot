@@ -1,5 +1,4 @@
-import { GuildMember, Message, TextChannel } from 'discord.js';
-import { RichEmbed } from 'discord.js';
+import { GuildMember, Message, RichEmbed, TextChannel } from 'discord.js';
 
 interface MemberJoinedAt {
   member: GuildMember;

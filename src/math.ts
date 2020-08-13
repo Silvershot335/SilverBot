@@ -1,6 +1,6 @@
-import { Client, Message } from 'discord.js';
+import { Message } from 'discord.js';
 
-export function portalcalc(message: Message, bot: Client) {
+export function portalCalc(message: Message) {
   const coord = message.content.split(' ');
   const p1 = Number(coord[2]);
   const p2 = Number(coord[3]);
@@ -10,14 +10,14 @@ export function portalcalc(message: Message, bot: Client) {
   return `${p11} ${p2} ${p33}`;
 }
 
-export function roll(message: Message, bot: Client) {
-  const base = message.content.split (' ');
+export function roll(message: Message) {
+  const base = message.content.split(' ');
   const n = Number(base[2]) + 1;
   const r = Math.floor(Math.random() * n);
   return `${r}`;
 }
 
-export function tCat(message: Message, bot: Client) {
+export function tCat() {
   const q = Math.floor(Math.random() * 5);
   if (q === 0) {
     return 'Geography 🌍';

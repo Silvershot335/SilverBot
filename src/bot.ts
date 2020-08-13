@@ -6,6 +6,7 @@ import { handleBotPing, lookForLink } from './pinged-bot';
 import { giveUserPoints } from './points';
 import { handleRoleCommands } from './roles';
 import { playSong } from './song';
+import { addQuestions } from './trivia-batch';
 import { checkVoiceCommands } from './voice';
 
 function handleSimpleReplies(message: Message, bot: Client) {
@@ -43,13 +44,19 @@ function handleSimpleReplies(message: Message, bot: Client) {
 export function createBot(connection: Connection) {
   const bot = new Client();
 
-  bot.on('ready', () => {
+  bot.on('ready', async () => {
+    bot.user.setStatus('invisible');
+
+    await Promise.all([
+      setMemes(connection),
+      addQuestions(connection),
+      playSong(bot, 'Airplane'),
+    ]);
+
+    bot.user.setStatus('online');
+
     logger.info('Connected!');
     logger.info(`Logged in as ${bot.user.tag}!`);
-
-    setMemes(connection);
-
-    playSong(bot, 'Airplane');
   });
 
   // These commands will run based on any message containing the included message (or *only* being the message).
