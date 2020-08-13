@@ -4,10 +4,11 @@ import { Command } from './database/command.entity';
 import { generateInfoMessage } from './info';
 import { parseInput } from './input';
 import { logger } from './logger';
-import { portalcalc, roll, tCat } from './math';
+import { portalCalc, roll, tCat } from './math';
 import { makeMeme } from './meme';
 import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
+import { showTriviaQuestion } from './trivia';
 import { playSong, stopPlayingSong, uploadSong } from './voice';
 
 const commands: Map<string, string> = new Map();
@@ -24,15 +25,15 @@ export function handleBotPing(message: Message, bot: Client) {
       break;
 
     case 'portal':
-      message.channel.send(portalcalc(message, bot));
+      message.channel.send(portalCalc(message));
       break;
 
     case 'q':
-      message.channel.send(tCat(message, bot));
+      message.channel.send(tCat());
       break;
 
     case 'roll':
-      message.channel.send(roll(message, bot));
+      message.channel.send(roll(message));
       break;
 
     case 'level':
@@ -133,7 +134,7 @@ export function handleBotPing(message: Message, bot: Client) {
       });
       break;
 
-      case 'upload':
+    case 'upload':
       uploadSong(input, message);
       break;
 
@@ -143,6 +144,10 @@ export function handleBotPing(message: Message, bot: Client) {
 
     case 'stop':
       stopPlayingSong(bot);
+      break;
+
+    case 'trivia':
+      showTriviaQuestion(bot, message);
       break;
 
     default:

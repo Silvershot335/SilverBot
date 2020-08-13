@@ -4,19 +4,13 @@ import { Point } from './database/point.entity';
 import { Role } from './database/role.entity';
 import { FormattedInput } from './input';
 import { logger } from './logger';
+import { getNow, getRandomNumber } from './utils';
 
 const levels: Level[] = [];
 
 interface Level {
   level: number;
   experience: number;
-}
-
-function getNow() {
-  const date = new Date();
-  return (
-    date.toLocaleDateString() + ' ' + date.getHours() + ':' + date.getMinutes()
-  );
 }
 
 async function findPreviousPoints(userID: string) {
@@ -36,14 +30,10 @@ export async function findUserLevel(userID: string) {
   return -1;
 }
 
-function getRandomNumber(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 async function getUsersRole(serverID: string, currentLevel: Level) {
   const roles = await Role.find({
     serverID,
-    level: LessThanOrEqual(currentLevel.level)
+    level: LessThanOrEqual(currentLevel.level),
   });
   return roles.map((role) => role.role);
 }
@@ -165,7 +155,7 @@ async function addXPUntilNextLevel(
       userID,
       timestamp: '1',
       points: 2_000_000_000,
-      serverID
+      serverID,
     })
       .save()
       .catch(logger.error);
@@ -176,7 +166,7 @@ async function addXPUntilNextLevel(
       userID,
       timestamp: '1',
       points: missingXP,
-      serverID
+      serverID,
     })
       .save()
       .catch(logger.error);

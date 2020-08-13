@@ -20,6 +20,7 @@ export const functions = [
   'upload',
   'q',
   'roll',
+  'trivia',
 ];
 
 export const songs: { title: string; duration: number }[] = [
@@ -63,3 +64,30 @@ export const infoMessageEmbed = new RichEmbed().setColor('#0099ff');
 
 export const username = process.env.API_USER!;
 export const password = process.env.API_PASS!;
+
+export function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+export function getRandomNumber(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function getNow() {
+  const date = new Date();
+  return (
+    date.toLocaleDateString() + ' ' + date.getHours() + ':' + date.getMinutes()
+  );
+}
+
+export function titleCase(word: string) {
+  return word[0].toUpperCase() + word.slice(1).toLowerCase();
+}
+
+export function shuffle<T>(a: T[]): T[] {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
