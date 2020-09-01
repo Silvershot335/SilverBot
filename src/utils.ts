@@ -44,6 +44,7 @@ export const songs: { title: string; duration: number }[] = [
   { title: 'The Girls', duration: 216 },
   { title: 'Story', duration: 230 },
   { title: 'Stop & Go', duration: 180 },
+  { title: 'Live 4ever', duration: 203 },
 
   // Night/Pop
   { title: 'Neon', duration: 153 },

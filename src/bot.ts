@@ -21,12 +21,17 @@ function handleSimpleReplies(message: Message, bot: Client) {
       message.react('585982309451300864');
       return;
   }
-  /* 10if (
-  1  message.content.toLowerCase().includes('subjective') ||
-    message.content.toLowerCase().includes('objective')
-  ) {
-    message.react('😒');
-  }*/
+
+  if (message.content.toLowerCase().match('killbotdiebotaah')) {
+    bot.destroy();
+  }
+
+  if (message.channel as TextChannel && (message.channel as TextChannel).guild.id === '255480736713408513' &&
+   message.content.toLowerCase().match(/(?:^| )(overwatch|o\s?w)(?: |$)/))
+{
+  message.channel.send('bhad gam');
+}
+
   if (message.content.toLowerCase().match('(?:^| )(v|V)u(?: |$)')) {
     message.channel.send('We do not speak its name.');
   }
@@ -34,13 +39,9 @@ function handleSimpleReplies(message: Message, bot: Client) {
     message.channel.send('The Future Needs a Big Kiss.');
     message.react('462479805229826058');
   }
-  /*if (message.content.toLowerCase().includes('vm.tiktok.com')) {
-    message.member.kick('TikTok is BANNED');
-    message.delete(1);
-  }*/
+
   checkVoiceCommands(message, bot);
 }
-
 export function createBot(connection: Connection) {
   const bot = new Client();
 
