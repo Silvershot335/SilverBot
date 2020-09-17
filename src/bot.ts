@@ -1,4 +1,4 @@
-import { Client, Message } from 'discord.js';
+import { Client, Message, TextChannel } from 'discord.js';
 import { Connection } from 'typeorm';
 import { logger } from './logger';
 import { setMemes } from './meme';
@@ -27,8 +27,7 @@ function handleSimpleReplies(message: Message, bot: Client) {
   }
 
   if (message.channel as TextChannel && (message.channel as TextChannel).guild.id === '255480736713408513' &&
-   message.content.toLowerCase().match(/(?:^| )(overwatch|o\s?w)(?: |$)/))
-{
+   message.content.toLowerCase().match(/(?:^| )(overwatch|o\s?w)(?: |$)/)) {
   message.channel.send('bhad gam');
 }
 
