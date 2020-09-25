@@ -26,10 +26,13 @@ function handleSimpleReplies(message: Message, bot: Client) {
     bot.destroy();
   }
 
-  if (message.channel as TextChannel && (message.channel as TextChannel).guild.id === '255480736713408513' &&
-   message.content.toLowerCase().match(/(?:^| )(overwatch|o\s?w)(?: |$)/)) {
-  message.channel.send('bhad gam');
-}
+  if (
+    (message.channel as TextChannel) &&
+    (message.channel as TextChannel).guild.id === '255480736713408513' &&
+    message.content.toLowerCase().match(/(?:^| )(overwatch|o\s?w)(?: |$)/)
+  ) {
+    message.channel.send('bhad gam');
+  }
 
   if (message.content.toLowerCase().match('(?:^| )(v|V)u(?: |$)')) {
     message.channel.send('We do not speak its name.');
@@ -45,6 +48,7 @@ export function createBot(connection: Connection) {
   const bot = new Client();
 
   bot.on('ready', async () => {
+    logger.info('Bot starting up');
     bot.user.setStatus('invisible');
 
     await Promise.all([

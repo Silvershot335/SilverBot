@@ -10,7 +10,9 @@
     "compile-watch": "tsc --watch",
     "prod": "npm run compile && npm run start-batch",
     "start-batch": "node -r dotenv/config .",
-    "lint": "tslint -p src"
+    "lint": "tslint -p src",
+    "service-install": "node service/installer.js",
+    "service-uninstall": "node service/uninstaller.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +41,7 @@
     "@types/node": "^12.12.14",
     "@types/node-fetch": "^2.5.4",
     "concurrently": "^5.0.0",
+    "node-windows": "^1.0.0-beta.5",
     "pre-commit": "^1.2.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3"
