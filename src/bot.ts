@@ -7,9 +7,10 @@ import { giveUserPoints } from './points';
 import { handleRoleCommands } from './roles';
 import { playSong } from './song';
 import { addQuestions } from './trivia-batch';
+import { doBotPing, doStuff } from './u2';
 import { checkVoiceCommands } from './voice';
 
-function handleSimpleReplies(message: Message, bot: Client) {
+export function handleSimpleReplies(message: Message, bot: Client) {
   switch (message.content.trim()) {
     case 'F':
       message.channel.send('F');
@@ -37,10 +38,10 @@ function handleSimpleReplies(message: Message, bot: Client) {
   if (message.content.toLowerCase().match('(?:^| )(v|V)u(?: |$)')) {
     message.channel.send('We do not speak its name.');
   }
-  if (message.content.toLowerCase().match('get on your boots')) {
+  /*if (message.content.toLowerCase().match('get on your boots')) {
     message.channel.send('The Future Needs a Big Kiss.');
     message.react('462479805229826058');
-  }
+  }*/
 
   checkVoiceCommands(message, bot);
 }
@@ -84,6 +85,8 @@ export function createBot(connection: Connection) {
     }
     handleRoleCommands(message);
     lookForLink(message);
+    doStuff(message, bot);
+    doBotPing(message, bot);
   });
   bot.login(process.env.BOT_TOKEN);
 }

@@ -21,6 +21,7 @@ export const functions = [
   'q',
   'roll',
   'trivia',
+  'playlist-club',
 ];
 
 export const songs: { title: string; duration: number }[] = [
@@ -45,6 +46,7 @@ export const songs: { title: string; duration: number }[] = [
   { title: 'Story', duration: 230 },
   { title: 'Stop & Go', duration: 180 },
   { title: 'Live 4ever', duration: 203 },
+  { title: 'Woww', duration: 120 },
 
   // Night/Pop
   { title: 'Neon', duration: 153 },
