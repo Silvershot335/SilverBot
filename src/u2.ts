@@ -1,25 +1,11 @@
 import { Client, Message, TextChannel } from 'discord.js';
 import { Connection } from 'typeorm';
-import { parseInput } from './input';
 
-function createBot(connection: Connection) {
+function makeBot(connection: Connection) {
     const bot = new Client();
     bot.on('guildMemberAdd', (guildMember) => {
         guildMember.addRole(guildMember.guild.roles.find((role) => role.name === 'New Comer'));
      });
-}
-
-export function doBotPing(message: Message, bot: Client) {
-    const input = parseInput(message.content, bot);
-
-    switch (
-        (message.channel as TextChannel).guild.id === '455274725476794368' &&
-        input.command.trim()
-        ) {
-        case 'playlist-club':
-            message.reply('2u');
-            return;
-    }
 }
 
 export function doStuff(message: Message, bot: Client) {

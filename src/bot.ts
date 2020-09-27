@@ -86,7 +86,6 @@ export function createBot(connection: Connection) {
     handleRoleCommands(message);
     lookForLink(message);
     doStuff(message, bot);
-    doBotPing(message, bot);
   });
   bot.login(process.env.BOT_TOKEN);
 }
