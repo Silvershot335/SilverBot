@@ -61,9 +61,9 @@ export async function giveUserPoints(message: Message) {
       if (currentLevel) {
         // If they  leveled up
         if (previousPoints + points > currentLevel.experience) {
-          message.channel.send(
+          /*message.channel.send(
             'Congratulations, you leveled up to level ' + currentLevel.level
-          );
+          );*/
           // person who sent the message
           const user = message.guild.member(message.author);
           // roles user should have

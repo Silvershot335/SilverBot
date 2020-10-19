@@ -1,13 +1,14 @@
 import { Client, Message, TextChannel } from 'discord.js';
 import { Connection } from 'typeorm';
 import { logger } from './logger';
+import { vu } from './math';
 import { setMemes } from './meme';
 import { handleBotPing, lookForLink } from './pinged-bot';
 import { giveUserPoints } from './points';
 import { handleRoleCommands } from './roles';
 import { playSong } from './song';
 import { addQuestions } from './trivia-batch';
-import { doBotPing, doStuff } from './u2';
+import { doStuff } from './u2';
 import { checkVoiceCommands } from './voice';
 
 export function handleSimpleReplies(message: Message, bot: Client) {
@@ -21,6 +22,9 @@ export function handleSimpleReplies(message: Message, bot: Client) {
     case 'ree':
       message.react('585982309451300864');
       return;
+    case 'vu':
+      message.channel.send(vu(message));
+      return;
   }
 
   if (message.content.toLowerCase().match('killbotdiebotaah')) {
@@ -33,10 +37,6 @@ export function handleSimpleReplies(message: Message, bot: Client) {
     message.content.toLowerCase().match(/(?:^| )(overwatch|o\s?w)(?: |$)/)
   ) {
     message.channel.send('bhad gam');
-  }
-
-  if (message.content.toLowerCase().match('(?:^| )(v|V)u(?: |$)')) {
-    message.channel.send('We do not speak its name.');
   }
   /*if (message.content.toLowerCase().match('get on your boots')) {
     message.channel.send('The Future Needs a Big Kiss.');

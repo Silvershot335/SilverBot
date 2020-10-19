@@ -17,25 +17,46 @@ export function roll(message: Message) {
   return `${r}`;
 }
 
-export function tCat() {
-  const q = Math.floor(Math.random() * 5);
+export function vu(message: Message) {
+  const q = Math.floor(Math.random() * 12);
   if (q === 0) {
-    return 'Geography 🌍';
+    return 'Vu Bad';
   }
   if (q === 1) {
-    return 'Entertainment 🖥️';
+    return 'Vu is an asexual autist.';
   }
   if (q === 2) {
-    return 'History 🦕';
+    return 'Vu likes to touch kitty cats.';
   }
   if (q === 3) {
-    return 'Art and Literature 📖';
+    return 'Vu is uncultured.';
   }
   if (q === 4) {
-    return 'Science and Nature 🧬';
+    return 'Vu suffers from Aspengers.';
   }
   if (q === 5) {
-    return 'Sports and Leisure ⚾';
+    return 'Vu\'s favorite American artist is Elton John.';
+  }
+  if (q === 6) {
+    return 'Vu uses hard R and sees nothing wrong with it.';
+  }
+  if (q === 7) {
+    return 'Vu does not understand that science is 90% writing. No one cares about discoveries if they cannot be communicated.';
+  }
+  if (q === 8) {
+    return 'Vu\'s disregard for anything outside of science is either completely fake or he is a real life super villain who only cares about "logic" AKA Thanos.';
+  }
+  if (q === 9) {
+    return 'Vu is unsurprisingly tone deaf.';
+  }
+  if (q === 10) {
+    return 'Vu is accredited with damaging my eardrums after his attempt to sing Oprah.';
+  }
+  if (q === 11) {
+    return 'Vu is an active member of the KKK.';
+  }
+  if (q === 12) {
+    return 'Vu has only recently discovered Hot Dogs.';
   }
   return 'It Broken Dood';
 }

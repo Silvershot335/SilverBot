@@ -4,7 +4,7 @@ import { Command } from './database/command.entity';
 import { generateInfoMessage } from './info';
 import { parseInput } from './input';
 import { logger } from './logger';
-import { portalCalc, roll, tCat } from './math';
+import { portalCalc, roll, vu } from './math';
 import { makeMeme } from './meme';
 import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
@@ -24,16 +24,16 @@ export function handleBotPing(message: Message, bot: Client) {
       skipSong(bot);
       break;
 
+    /*case 'vu':
+      message.channel.send(vu(message));
+      break;*/
+
     case 'playlist-club':
       message.reply("Playlist Club information can be found in <#759847930252361758>.");
       break;
 
     case 'portal':
       message.channel.send(portalCalc(message));
-      break;
-
-    case 'q':
-      message.channel.send(tCat());
       break;
 
     case 'roll':

@@ -22,6 +22,7 @@ export const functions = [
   'roll',
   'trivia',
   'playlist-club',
+  'vu',
 ];
 
 export const songs: { title: string; duration: number }[] = [
