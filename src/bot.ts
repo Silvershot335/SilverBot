@@ -1,7 +1,7 @@
 import { Client, Message, TextChannel } from 'discord.js';
 import { Connection } from 'typeorm';
 import { logger } from './logger';
-import { vu } from './math';
+import { vu } from './vu';
 import { setMemes } from './meme';
 import { handleBotPing, lookForLink } from './pinged-bot';
 import { giveUserPoints } from './points';
@@ -23,7 +23,7 @@ export function handleSimpleReplies(message: Message, bot: Client) {
       message.react('585982309451300864');
       return;
     case 'vu':
-      message.channel.send(vu(message));
+      message.channel.send(vu());
       return;
   }
 
