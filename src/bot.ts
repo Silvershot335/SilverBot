@@ -78,12 +78,6 @@ export function createBot(connection: Connection) {
       await giveUserPoints(message);
     }
 
-    if (
-      message.content.includes('overwatch') ||
-      message.content.includes('ow')
-    ) {
-    }
-
     handleSimpleReplies(message, bot);
 
     if (message.isMemberMentioned(bot.user)) {

@@ -29,12 +29,14 @@ function buildSQL(message: FormattedInput, botMessage: Message) {
 }
 
 export function handleAH(bot: Message, message: FormattedInput) {
-  if (message.key === 'help' && !isJudah(bot) && !isSilver(bot)) {
-    bot.reply('@Bot ah RealmName ItemName');
-  } else if (message.key === 'help') {
-    bot.reply(
-      '@Bot ah (RealmName) ItemName ("otherrealm"), parentheses are optional, otherrealm is that specific text'
-    );
+  if (message.key === 'help') {
+    if (!isJudah(bot) && !isSilver(bot)) {
+      bot.reply('@Bot ah RealmName ItemName');
+    } else {
+      bot.reply(
+        '@Bot ah (RealmName) ItemName ("otherrealm"), parentheses are optional, otherrealm is that specific text'
+      );
+    }
   }
   const connection = mysql.createConnection({
     host: 'newswire.theunderminejournal.com',
