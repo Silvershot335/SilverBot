@@ -10,6 +10,7 @@ import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
 import { showTriviaQuestion } from './trivia';
 import { playSong, stopPlayingSong, uploadSong } from './voice';
+import { handleAH } from './ah';
 
 const commands: Map<string, string> = new Map();
 const links: Map<string, string> = new Map();
@@ -29,7 +30,9 @@ export function handleBotPing(message: Message, bot: Client) {
       break;*/
 
     case 'playlist-club':
-      message.reply("Playlist Club information can be found in <#759847930252361758>.");
+      message.reply(
+        'Playlist Club information can be found in <#759847930252361758>.'
+      );
       break;
 
     case 'portal':
@@ -152,6 +155,10 @@ export function handleBotPing(message: Message, bot: Client) {
 
     case 'trivia':
       showTriviaQuestion(bot, message);
+      break;
+
+    case 'ah':
+      handleAH(message, input);
       break;
 
     default:

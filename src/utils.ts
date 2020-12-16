@@ -23,6 +23,7 @@ export const functions = [
   'trivia',
   'playlist-club',
   'vu',
+  'ah',
 ];
 
 export const songs: { title: string; duration: number }[] = [
