@@ -194,7 +194,10 @@ export async function addLevels(
   message: Message
 ): Promise<null | number> {
   // if author is Judah or Chris
-  if (isJudah(message) || isSilver(message)) {
+  if (
+    message.author.id === '177116185006047232' ||
+    message.author.id === '167804931439329280'
+  ) {
     if (levels.length === 0) {
       generateLevels();
     }
@@ -209,12 +212,4 @@ export async function addLevels(
     return addUntilMaxLevel(input, userID, serverID);
   }
   return Promise.resolve(null);
-}
-
-export function isJudah(message: Message) {
-  return message.author.id === '167804931439329280';
-}
-
-export function isSilver(message: Message) {
-  return message.author.id === '177116185006047232';
 }
