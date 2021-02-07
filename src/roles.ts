@@ -4,7 +4,7 @@ import { logger } from './logger';
 // Moved all previous role logic in here
 export function handleRoleCommands(message: Message) {
   if (
-    message.content.includes('addrole') &&
+    message.content.includes('!addrole') &&
     message.member.roles.some((r) =>
       ['Admin', 'Judah', 'Fascist Overlord', 'unaligned'].includes(r.name)
     )
@@ -16,7 +16,7 @@ export function handleRoleCommands(message: Message) {
     man.removeRole('665020851791462403').catch(logger.error);
   }
   if (
-    message.content.includes('removerole') &&
+    message.content.includes('!removerole') &&
     message.member.roles.some((r) =>
       ['Carter', 'Judah', 'Fascist Overlord', 'Unaligned'].includes(r.name)
     )

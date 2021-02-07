@@ -33,7 +33,7 @@ export function checkVoiceCommands(message: Message, bot: Client) {
       VC.join()
         .then((connection) => {
           const play = connection.playFile(
-            'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\SeaShanty2.mp3'
+            'C:\\Users\\silve\\Documents\\GitHub\\SilverBot\\Audio\\seashanty2.mp3'
           );
           play.on('end', () => {
             connection.disconnect();

@@ -87,11 +87,11 @@ export async function giveUserPoints(message: Message) {
                 )
                 .catch(logger.error);
             }
-            if (roles.length > 1) {
+            /*if (roles.length > 1) {
               message.channel.send(`Roles Added: ${roles.join(', ')}`);
             } else {
               message.channel.send(`Role Added: ${roles[0]}`);
-            }
+            }*/
           }
           logger.debug(
             `${message.author.username} leveled up to level ${currentLevel.level}!`
