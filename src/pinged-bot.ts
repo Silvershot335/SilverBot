@@ -11,6 +11,7 @@ import { skipSong } from './song';
 import { showTriviaQuestion } from './trivia';
 import { playSong, stopPlayingSong, uploadSong } from './voice';
 import { handleAH } from './ah';
+import { vu } from './vu';
 
 const commands: Map<string, string> = new Map();
 const links: Map<string, string> = new Map();
@@ -25,9 +26,9 @@ export function handleBotPing(message: Message, bot: Client) {
       skipSong(bot);
       break;
 
-    /*case 'vu':
+    case 'vu':
       message.channel.send(vu());
-      break;*/
+      break;
 
     case 'playlist-club':
       message.reply(
