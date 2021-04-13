@@ -9,7 +9,7 @@ import { makeMeme } from './meme';
 import { addLevels, findUserLevel } from './points';
 import { skipSong } from './song';
 import { showTriviaQuestion } from './trivia';
-import { playSong, stopPlayingSong, uploadSong } from './voice';
+// import { playSong, stopPlayingSong, uploadSong } from './voice';
 import { handleAH } from './ah';
 import { vu } from './vu';
 
@@ -142,17 +142,17 @@ export function handleBotPing(message: Message, bot: Client) {
       });
       break;
 
-    case 'upload':
-      uploadSong(input, message);
-      break;
+    // case 'upload':
+    //   uploadSong(input, message);
+    //   break;
 
-    case 'play':
-      playSong(input, message);
-      break;
+    // case 'play':
+    //   playSong(input, message);
+    //   break;
 
-    case 'stop':
-      stopPlayingSong(bot);
-      break;
+    // case 'stop':
+    //   stopPlayingSong(bot);
+    //   break;
 
     case 'trivia':
       showTriviaQuestion(bot, message);

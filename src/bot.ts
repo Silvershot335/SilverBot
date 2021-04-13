@@ -8,8 +8,8 @@ import { giveUserPoints } from './points';
 import { handleRoleCommands } from './roles';
 import { playSong } from './song';
 import { addQuestions } from './trivia-batch';
-import { doStuff } from './u2';
-import { checkVoiceCommands } from './voice';
+ import { doStuff } from './u2';
+//  import { checkVoiceCommands } from './voice';
 
 export function handleSimpleReplies(message: Message, bot: Client) {
   switch (message.content.trim()) {
@@ -43,22 +43,22 @@ export function handleSimpleReplies(message: Message, bot: Client) {
     message.react('462479805229826058');
   }*/
 
-  checkVoiceCommands(message, bot);
+  // checkVoiceCommands(message, bot);
 }
 export function createBot(connection: Connection) {
   const bot = new Client();
 
   bot.on('ready', async () => {
     logger.info('Bot starting up');
-    bot.user.setStatus('invisible');
+    // bot.user.setStatus('invisible');
 
-    await Promise.all([
-      setMemes(connection),
-      addQuestions(connection),
-      playSong(bot, 'Airplane'),
-    ]);
+    // await Promise.all(
+    //   setMemes(connection),
+    //   addQuestions(connection),
+    //   playSong(bot, 'Airplane'),
+    // ]);
 
-    bot.user.setStatus('online');
+    // bot.user.setStatus('online');
 
     logger.info('Connected!');
     logger.info(`Logged in as ${bot.user.tag}!`);

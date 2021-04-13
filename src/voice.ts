@@ -1,4 +1,4 @@
-import { Client, Message, StreamDispatcher } from 'discord.js';
+/*import { Client, Message, StreamDispatcher } from 'discord.js';
 import fs from 'fs';
 import http from 'https';
 import { FormattedInput } from './input';
@@ -72,7 +72,7 @@ export function checkVoiceCommands(message: Message, bot: Client) {
  * This function takes the uploaded file and  downloads it to the Audio directory. If
  * a extra word is passed, it will use that for the file name instead of the original file name.
  * On saving, it replaces spaces with _ characters.
- */
+ 
 export function uploadSong(input: FormattedInput, message: Message) {
   if (message.attachments.array().length) {
     for (const item of message.attachments.array()) {
@@ -95,7 +95,7 @@ export function uploadSong(input: FormattedInput, message: Message) {
 
 /**
  * This function will stop the music and disconnect from voice
- */
+ 
 export function stopPlayingSong(bot: Client) {
   if (voiceConnection) {
     voiceConnection.pause();
@@ -106,7 +106,7 @@ export function stopPlayingSong(bot: Client) {
 /**
  * This function looks in the directory for the song in the input, replacing
  * spaces with _ to properly search.
- */
+ 
 export function playSong(input: FormattedInput, message: Message) {
   const vc = message.member.voiceChannel;
   if (!vc) {
@@ -128,3 +128,4 @@ export function playSong(input: FormattedInput, message: Message) {
     }
   }
 }
+*/
