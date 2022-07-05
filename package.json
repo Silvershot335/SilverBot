@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/Silvershot335/SilverBot#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.3.2",
+    "@discordjs/opus": "^0.8.0",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "mysql": "^2.18.1",
